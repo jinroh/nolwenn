@@ -4,11 +4,89 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const ReactCSSTransitionGroup = require("react-addons-css-transition-group");
 const { Router, Route, IndexRedirect, Link } = require("react-router");
+const createHashHistory = require("history/lib/createHashHistory");
 const { ProjectViewer } = require("./components/project");
 const { initialStage } = require("../public");
 const { findStage, throttle } = require("./helpers");
 
+const history = createHashHistory({
+  queryKey: false
+});
+
 throttle("resize", "throttledResize", window);
+
+const ProjectTooltip = React.createClass({
+  render() {
+    const {
+      project,
+      imageWidth,
+      imageHeight,
+    } = this.props;
+
+    const tooltipStyle = {
+      left: (imageWidth  * (project.cursor.x + 2.2) / 100) + "px",
+      top:  (imageHeight * (project.cursor.y + 6.0) / 100) + "px",
+    };
+
+    return (
+      <div
+        className="project-tooltip"
+        style={tooltipStyle}
+      >
+        <div>
+          <p>{project.title}</p>
+          <p className="project-tooltip-subtitle">{project.subtitle}</p>
+          <p className="project-tooltip-date"><span>{project.date}</span></p>
+        </div>
+      </div>
+    );
+  }
+});
+
+const StageHeader = React.createClass({
+  shouldComponentUpdate(nextProps) {
+    return this.props.stage !== nextProps.stage;
+  },
+  render() {
+    const { stage } = this.props;
+    const siteHeaderStyle = {
+      color: stage.headerColor || "#D6C3BC",
+    };
+
+    if (stage.headerAlign == "right") {
+      siteHeaderStyle.right = 0;
+      siteHeaderStyle.textAlign = "right";
+    } else {
+      siteHeaderStyle.left = 0;
+      siteHeaderStyle.textAlign = "left";
+    }
+
+    return (
+      <header
+        className="site-header"
+        style={siteHeaderStyle}
+      >
+        <h1>Nolwenn Le Scao</h1>
+        <p>
+          <Link to="/about">À propos</Link> | <Link to="/contact">Contact</Link>
+        </p>
+      </header>
+    );
+  }
+});
+
+const StageFooter = React.createClass({
+  shouldComponentUpdate() {
+    return false;
+  },
+  render() {
+    return (
+      <footer className="site-footer">
+        <a href="/">Photographies Inès Leroy-Galan</a>
+      </footer>
+    );
+  }
+});
 
 const StageViewer = React.createClass({
   getInitialState() {
@@ -16,7 +94,6 @@ const StageViewer = React.createClass({
       imgLoaded: false,
       imgRatio: 0,
       projectTooltip: null,
-      width: window.innerWidth,
       height: window.innerHeight,
     };
   },
@@ -30,10 +107,7 @@ const StageViewer = React.createClass({
   },
 
   setWindowSize() {
-    this.setState({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
+    this.setState({ height: window.innerHeight });
   },
 
   onImageLoaded() {
@@ -57,70 +131,65 @@ const StageViewer = React.createClass({
     this.setState({ projectTooltip: null });
   },
 
+  getImageSize() {
+    const { imgRatio, height } = this.state;
+    const imageWidth = height * imgRatio;
+    const imageHeight = height;
+    return {
+      imageWidth,
+      imageHeight,
+    };
+  },
+
+  getCursors(stage, imageWidth, imageHeight) {
+    const { stageId } = stage;
+
+    return stage.projects.map((project) => {
+      const { projectId, cursor } = project;
+
+      const cursorStyle = {
+        left:   (imageWidth  * cursor.x / 100) + "px",
+        top:    (imageHeight * cursor.y / 100) + "px",
+        width:  (imageWidth * 4 / 100) + "px",
+        height: (imageWidth * 4 / 100) + "px",
+        backgroundImage: `url(images/${cursor.cursor}.gif)`
+      };
+
+      return (
+        <Link
+          key={projectId}
+          to={`/${stageId}/${projectId}`}
+          className={"cursor cursor-" + cursor.cursor}
+          style={cursorStyle}
+          onClick={() => this.onMouseLeave(project)}
+          onMouseEnter={() => this.onMouseEnter(project)}
+          onMouseLeave={() => this.onMouseLeave(project)}>
+        </Link>
+      );
+    });
+  },
+
   render() {
     const { children, params } = this.props;
     const { stageId, projectId } = params;
     const stage = findStage(stageId);
-    const {
-      height,
-      imgLoaded,
-      imgRatio,
-      projectTooltip,
-    } = this.state;
+    const { imgLoaded, projectTooltip } = this.state;
+    const { imageWidth, imageHeight } = this.getImageSize();
 
-    let cursorSpans;
-    let imageWidth = 0;
-    let imageHeight = 0;
-    let tooltip;
+    let cursorSpans, tooltip;
+
+    if (imgLoaded && projectTooltip) {
+      tooltip = (
+        <ProjectTooltip
+          key={projectTooltip.projectId}
+          project={projectTooltip}
+          imageWidth={imageWidth}
+          imageHeight={imageHeight} />
+      );
+    }
 
     if (imgLoaded) {
-      imageWidth = height * imgRatio;
-      imageHeight = height;
-
-      if (projectTooltip) {
-        const tooltipStyle = {
-          left: (imageWidth  * (projectTooltip.cursor.x + 2.2) / 100) + "px",
-          top:  (imageHeight * (projectTooltip.cursor.y + 6) / 100) + "px",
-        };
-
-        tooltip = (
-          <div
-            key={projectTooltip.projectId}
-            className="project-tooltip"
-            style={tooltipStyle}
-          >
-            <div>
-              <p>{projectTooltip.title}</p>
-              <p className="project-tooltip-subtitle">{projectTooltip.subtitle}</p>
-              <p className="project-tooltip-date"><span>{projectTooltip.date}</span></p>
-            </div>
-          </div>
-        );
-      }
-
-      cursorSpans = stage.projects.map((project) => {
-        const { projectId, cursor } = project;
-
-        const cursorStyle = {
-          left:   (imageWidth  * cursor.x / 100) + "px",
-          top:    (imageHeight * cursor.y / 100) + "px",
-          width:  (imageWidth * 4 / 100) + "px",
-          height: (imageWidth * 4 / 100) + "px",
-          backgroundImage: `url(images/${cursor.cursor}.gif)`
-        };
-
-        return (
-          <Link
-            key={projectId}
-            to={`/${stageId}/${projectId}`}
-            className={"cursor cursor-" + cursor.cursor}
-            style={cursorStyle}
-            onClick={() => this.onMouseLeave(project)}
-            onMouseEnter={() => this.onMouseEnter(project)}
-            onMouseLeave={() => this.onMouseLeave(project)}>
-          </Link>
-        );
-      });
+      cursorSpans = this.getCursors(stage, imageWidth, imageHeight);
     }
 
     const stageStyle = {
@@ -136,31 +205,13 @@ const StageViewer = React.createClass({
       height: imageHeight,
     };
 
-    const siteHeaderStyle = {
-      color: stage.headerColor || "#D6C3BC",
-    };
-
-    if (stage.headerAlign == "right") {
-      siteHeaderStyle.right = 0;
-      siteHeaderStyle.textAlign = "right";
-    } else {
-      siteHeaderStyle.left = 0;
-      siteHeaderStyle.textAlign = "left";
-    }
-
     return (
       <section className="stage" style={stageStyle}>
-        <header
-          className="site-header"
-          style={siteHeaderStyle}
-        >
-          <h1>Nolwenn Le Scao</h1>
-          <p><Link to="/about">À propos</Link> | <Link to="/contact">Contact</Link></p>
-        </header>
+        <StageHeader stage={stage} />
 
         <img
           ref={(ref) => this.image = ref}
-          className={`stage-image ${projectId ? "stage-image-blurrrrrred" : ""}`}
+          className="stage-image"
           src={`${stage.stageId}/background.jpg`}
           style={stageImageStyle}
           onLoad={this.onImageLoaded} />
@@ -185,9 +236,7 @@ const StageViewer = React.createClass({
             : null}
         </ReactCSSTransitionGroup>
 
-        <footer className="site-footer">
-          <a href="/">Photographies Inès Leroy-Galan</a>
-        </footer>
+        <StageFooter />
       </section>
     );
   }
@@ -226,5 +275,5 @@ const routes = (
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-  ReactDOM.render(<Router>{routes}</Router>, document.getElementById("root"));
+  ReactDOM.render(<Router history={history}>{routes}</Router>, document.getElementById("root"));
 });
