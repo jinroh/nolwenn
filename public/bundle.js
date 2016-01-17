@@ -27038,7 +27038,7 @@
 	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      "
 	  }, {
 	    projectId: "hiver-nacre",
-	    cursor: { x: 41, y: 54, cursor: "06" },
+	    cursor: { x: 46, y: 57, cursor: "06" },
 	    images: [{ src: "projet3/01.jpg", alt: "" }, { src: "projet3/02.jpg", alt: "" }],
 	    title: "Hiver Nacré",
 	    subtitle: "Collection Automne-Hiver",

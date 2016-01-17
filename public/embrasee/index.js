@@ -36,7 +36,7 @@ module.exports = {
     },
     {
       projectId: "hiver-nacre",
-      cursor: { x: 41, y: 54, cursor: "06" },
+      cursor: { x: 46, y: 57, cursor: "06" },
       images: [
         { src: "projet3/01.jpg", alt: "" },
         { src: "projet3/02.jpg", alt: "" },
