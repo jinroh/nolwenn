@@ -1,0 +1,366 @@
+a, abbr, acronym, address, applet, article, aside, audio,
+b, big, blockquote, body, button, canvas, caption, center,
+cite, code, dd, del, details, dfn, div, dl, dt, em, embed,
+fieldset, figcaption, figure, footer, form, h1, h2, h3, h4,
+h5, h6, header, hgroup, html, i, iframe, img, ins, kbd,
+label, legend, li, mark, menu, nav, object, ol, output, p,
+pre, q, ruby, s, samp, section, small, span, strike, strong,
+sub, summary, sup, table, tbody, td, tfoot, th, thead, time,
+tr, tt, u, ul, var, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+  image-rendering: optimizeQuality;
+}
+
+@font-face {
+  font-family: "prumo-display-extralight";
+  src: url(fonts/prumo_display_extralight.ttf);
+  font-stretch: normal;
+}
+
+body {
+  image-rendering: -webkit-optimize-contrast;
+  font-family: "Roboto", sans-serif;
+  overflow: hidden;
+  font-size: .95em;
+  color: #ED7A77;
+}
+
+i {
+  font-style: italic;
+}
+
+*, *::before, *::after {
+  box-shadow: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+::selection {
+  background: #FAFAFA;
+}
+::-moz-selection {
+  background: #FAFAFA;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+ul, menu {
+  list-style: none;
+}
+
+strong {
+  font-weight: bold;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  width: 100%;
+}
+
+.site-header {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  padding: .5em 1em 0 1em;
+  color: #D6C3BC;
+
+  h1 {
+    font-family: "prumo-display-extralight", serif;
+    font-size: 2em;
+    color: inherit;
+  }
+
+  p {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-size: .5em;
+    letter-spacing: 0.04em;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+.site-footer {
+  position: absolute;
+  bottom: 1%;
+  right: 1%;
+  color: #655C58;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  font-size: .5em;
+  letter-spacing: 0.04em;
+  a {
+    text-decoration: none;
+  }
+}
+
+.stage {
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  .project-tooltip {
+    position: absolute;
+    background-color: rgba(40, 27, 10, 0.6);
+    box-shadow: 0px 0px 1px 0px rgba(40, 27, 10, 0.6);
+    color: #F4E6E1;
+    font-family: "Roboto", sans-serif;
+    font-size: .8em;
+    letter-spacing: .05em;
+
+    .project-tooltip-subtitle {
+      font-style: italic;
+      font-weight: 100;
+    }
+
+    .project-tooltip-date {
+      font-size: .8em;
+      font-weight: 100;
+      padding: .5em 0 .05em 0;
+      > span {
+        border-top: #C3B9B5 1px solid;
+        border-bottom: #C3B9B5 1px solid;
+      }
+    }
+
+    > div {
+      padding: .4em .5em .6em 2em;
+
+      p {
+        padding: .05em 0;
+      }
+    }
+  }
+}
+
+.stage-image {
+  transition: width 100ms, height 100ms;
+}
+
+.cursor {
+  position: absolute;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.project-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.project-viewer {
+  position: relative;
+  border: 1px solid #EDD7D6;
+  width: 90%;
+  height: 80%;
+  overflow: hidden;
+}
+
+.project-slide-show {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #EFE7E8;
+
+  .image-navigation {
+    position: absolute;
+    bottom: 1%;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    a {
+      text-decoration: none;
+    }
+
+    .image-navigation-prev {
+    }
+
+    .image-navigation-next {
+    }
+
+    .image-navigation-dot {
+      border-radius: 50%;
+      border: 1px solid #EDBFBE;
+      width: 10px;
+      height: 10px;
+      margin: 4px;
+      padding: 2px;
+      background-clip: content-box;
+      &.image-navigation-dot-selected {
+        background-color: #ED7A77;
+      }
+    }
+  }
+
+  .project-slide-show-wrapper {
+  }
+
+  .project-image {
+    position: absolute;
+    bottom: -10%;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.project-description {
+  position: absolute;
+  right: 80px;
+  // bottom: 13%;
+  bottom: 80px;
+  width: 180px;
+
+  .project-description-title {
+    text-transform: uppercase;
+    margin: 0 0 1em 0;
+    font-size: 1em;
+  }
+
+  .project-description-subtitle {
+    margin: 1em 0 0 0;
+    font-size: 0.85em;
+  }
+
+  .project-description-title,
+  .project-description-subtitle {
+    font-family: "prumo-display-extralight", serif;
+    font-weight: 100;
+  }
+
+  .project-description-date {
+    border-top: #EDBFBE 1px solid;
+    border-bottom: #EDBFBE 1px solid;
+    line-height: 1.5em;
+    font-size: 0.7em;
+  }
+
+  .project-description-text {
+    font-family: "Roboto", sans-serif;
+    line-height: 1.5em;
+    font-size: 0.7em;
+    p {
+      margin: 1em 0;
+    }
+  }
+
+  hr {
+    width: 47px;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #EDBFBE;
+    margin: 1em 0;
+    padding: 0;
+  }
+}
+
+
+.project-navigation {
+  display: flex;
+  margin-top: 3em;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  .project-navigation-donut {
+    width: 50px;
+    height: 50px;
+  }
+
+  .project-navigation-arrow {
+    color: #EFACA8;
+    font-family: "prumo-display-extralight";
+    font-size: 10em;
+    line-height: .5em;
+    text-decoration: none;
+    margin-top: -0.2em; // center arrows vertically
+    &:first-child {
+      margin-right: -0.07em;
+    }
+  }
+}
+
+.project-close {
+  color: #EFACA8;
+  font-family: "prumo-display-extralight";
+  font-weight: 100;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 10em;
+  line-height: 0.5em;
+  cursor: pointer;
+}
+
+.opacity-enter {
+  opacity: 0.01;
+}
+
+.opacity-enter.opacity-enter-active {
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
+
+.opacity-leave {
+  opacity: 1;
+}
+
+.opacity-leave.opacity-leave-active {
+  opacity: 0.01;
+  transition: opacity 400ms ease-out;
+}
+
+.unroll-enter {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.unroll-enter.unroll-enter-active {
+  max-height: 70px;
+  transition: max-height 400ms ease-out;
+  overflow: hidden;
+}
+
+.unroll-leave {
+  max-height: 70px;
+  overflow: hidden;
+}
+
+.unroll-leave.unroll-leave-active {
+  max-height: 0;
+  transition: max-height 400ms ease-out;
+  overflow: hidden;
+}
