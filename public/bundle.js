@@ -59,6 +59,8 @@
 	var IndexRedirect = _require.IndexRedirect;
 	var Link = _require.Link;
 
+	var createHashHistory = __webpack_require__(169);
+
 	var _require2 = __webpack_require__(213);
 
 	var ProjectViewer = _require2.ProjectViewer;
@@ -72,7 +74,125 @@
 	var findStage = _require4.findStage;
 	var throttle = _require4.throttle;
 
+	var history = createHashHistory({
+	  queryKey: false
+	});
+
 	throttle("resize", "throttledResize", window);
+
+	var ProjectTooltip = React.createClass({
+	  displayName: "ProjectTooltip",
+	  render: function render() {
+	    var _props = this.props;
+	    var project = _props.project;
+	    var imageWidth = _props.imageWidth;
+	    var imageHeight = _props.imageHeight;
+
+	    var tooltipStyle = {
+	      left: imageWidth * (project.cursor.x + 2.2) / 100 + "px",
+	      top: imageHeight * (project.cursor.y + 6.0) / 100 + "px"
+	    };
+
+	    return React.createElement(
+	      "div",
+	      {
+	        className: "project-tooltip",
+	        style: tooltipStyle
+	      },
+	      React.createElement(
+	        "div",
+	        null,
+	        React.createElement(
+	          "p",
+	          null,
+	          project.title
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "project-tooltip-subtitle" },
+	          project.subtitle
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "project-tooltip-date" },
+	          React.createElement(
+	            "span",
+	            null,
+	            project.date
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	var StageHeader = React.createClass({
+	  displayName: "StageHeader",
+	  shouldComponentUpdate: function shouldComponentUpdate(nextProps) {
+	    return this.props.stage !== nextProps.stage;
+	  },
+	  render: function render() {
+	    var stage = this.props.stage;
+
+	    var siteHeaderStyle = {
+	      color: stage.headerColor || "#D6C3BC"
+	    };
+
+	    if (stage.headerAlign == "right") {
+	      siteHeaderStyle.right = 0;
+	      siteHeaderStyle.textAlign = "right";
+	    } else {
+	      siteHeaderStyle.left = 0;
+	      siteHeaderStyle.textAlign = "left";
+	    }
+
+	    return React.createElement(
+	      "header",
+	      {
+	        className: "site-header",
+	        style: siteHeaderStyle
+	      },
+	      React.createElement(
+	        "h1",
+	        null,
+	        "Nolwenn Le Scao"
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        React.createElement(
+	          Link,
+	          { to: "/about" },
+	          "À propos"
+	        ),
+	        " | ",
+	        React.createElement(
+	          Link,
+	          { to: "/contact" },
+	          "Contact"
+	        )
+	      )
+	    );
+	  }
+	});
+
+	var StageFooter = React.createClass({
+	  displayName: "StageFooter",
+	  shouldComponentUpdate: function shouldComponentUpdate() {
+	    return false;
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "footer",
+	      { className: "site-footer" },
+	      React.createElement(
+	        "a",
+	        { href: "/" },
+	        "Photographies Inès Leroy-Galan"
+	      )
+	    );
+	  }
+	});
 
 	var StageViewer = React.createClass({
 	  displayName: "StageViewer",
@@ -81,7 +201,6 @@
 	      imgLoaded: false,
 	      imgRatio: 0,
 	      projectTooltip: null,
-	      width: window.innerWidth,
 	      height: window.innerHeight
 	    };
 	  },
@@ -92,10 +211,7 @@
 	    window.removeEventListener("throttledResize", this.setWindowSize);
 	  },
 	  setWindowSize: function setWindowSize() {
-	    this.setState({
-	      width: window.innerWidth,
-	      height: window.innerHeight
-	    });
+	    this.setState({ height: window.innerHeight });
 	  },
 	  onImageLoaded: function onImageLoaded() {
 	    var _image = this.image;
@@ -117,97 +233,83 @@
 	  onMouseLeave: function onMouseLeave() {
 	    this.setState({ projectTooltip: null });
 	  },
-	  render: function render() {
+	  getImageSize: function getImageSize() {
+	    var _state = this.state;
+	    var imgRatio = _state.imgRatio;
+	    var height = _state.height;
+
+	    var imageWidth = height * imgRatio;
+	    var imageHeight = height;
+	    return {
+	      imageWidth: imageWidth,
+	      imageHeight: imageHeight
+	    };
+	  },
+	  getCursors: function getCursors(stage, imageWidth, imageHeight) {
 	    var _this = this;
 
-	    var _props = this.props;
-	    var children = _props.children;
-	    var params = _props.params;
+	    var stageId = stage.stageId;
+
+	    return stage.projects.map(function (project) {
+	      var projectId = project.projectId;
+	      var cursor = project.cursor;
+
+	      var cursorStyle = {
+	        left: imageWidth * cursor.x / 100 + "px",
+	        top: imageHeight * cursor.y / 100 + "px",
+	        width: imageWidth * 4 / 100 + "px",
+	        height: imageWidth * 4 / 100 + "px",
+	        backgroundImage: "url(images/" + cursor.cursor + ".gif)"
+	      };
+
+	      return React.createElement(Link, {
+	        key: projectId,
+	        to: "/" + stageId + "/" + projectId,
+	        className: "cursor cursor-" + cursor.cursor,
+	        style: cursorStyle,
+	        onClick: function onClick() {
+	          return _this.onMouseLeave(project);
+	        },
+	        onMouseEnter: function onMouseEnter() {
+	          return _this.onMouseEnter(project);
+	        },
+	        onMouseLeave: function onMouseLeave() {
+	          return _this.onMouseLeave(project);
+	        } });
+	    });
+	  },
+	  render: function render() {
+	    var _this2 = this;
+
+	    var _props2 = this.props;
+	    var children = _props2.children;
+	    var params = _props2.params;
 	    var stageId = params.stageId;
 	    var projectId = params.projectId;
 
 	    var stage = findStage(stageId);
-	    var _state = this.state;
-	    var height = _state.height;
-	    var imgLoaded = _state.imgLoaded;
-	    var imgRatio = _state.imgRatio;
-	    var projectTooltip = _state.projectTooltip;
+	    var _state2 = this.state;
+	    var imgLoaded = _state2.imgLoaded;
+	    var projectTooltip = _state2.projectTooltip;
 
-	    var cursorSpans = undefined;
-	    var imageWidth = 0;
-	    var imageHeight = 0;
-	    var tooltip = undefined;
+	    var _getImageSize = this.getImageSize();
+
+	    var imageWidth = _getImageSize.imageWidth;
+	    var imageHeight = _getImageSize.imageHeight;
+
+	    var cursorSpans = undefined,
+	        tooltip = undefined;
+
+	    if (imgLoaded && projectTooltip) {
+	      tooltip = React.createElement(ProjectTooltip, {
+	        key: projectTooltip.projectId,
+	        project: projectTooltip,
+	        imageWidth: imageWidth,
+	        imageHeight: imageHeight });
+	    }
 
 	    if (imgLoaded) {
-	      imageWidth = height * imgRatio;
-	      imageHeight = height;
-
-	      if (projectTooltip) {
-	        var tooltipStyle = {
-	          left: imageWidth * (projectTooltip.cursor.x + 2.2) / 100 + "px",
-	          top: imageHeight * (projectTooltip.cursor.y + 6) / 100 + "px"
-	        };
-
-	        tooltip = React.createElement(
-	          "div",
-	          {
-	            key: projectTooltip.projectId,
-	            className: "project-tooltip",
-	            style: tooltipStyle
-	          },
-	          React.createElement(
-	            "div",
-	            null,
-	            React.createElement(
-	              "p",
-	              null,
-	              projectTooltip.title
-	            ),
-	            React.createElement(
-	              "p",
-	              { className: "project-tooltip-subtitle" },
-	              projectTooltip.subtitle
-	            ),
-	            React.createElement(
-	              "p",
-	              { className: "project-tooltip-date" },
-	              React.createElement(
-	                "span",
-	                null,
-	                projectTooltip.date
-	              )
-	            )
-	          )
-	        );
-	      }
-
-	      cursorSpans = stage.projects.map(function (project) {
-	        var projectId = project.projectId;
-	        var cursor = project.cursor;
-
-	        var cursorStyle = {
-	          left: imageWidth * cursor.x / 100 + "px",
-	          top: imageHeight * cursor.y / 100 + "px",
-	          width: imageWidth * 4 / 100 + "px",
-	          height: imageWidth * 4 / 100 + "px",
-	          backgroundImage: "url(images/" + cursor.cursor + ".gif)"
-	        };
-
-	        return React.createElement(Link, {
-	          key: projectId,
-	          to: "/" + stageId + "/" + projectId,
-	          className: "cursor cursor-" + cursor.cursor,
-	          style: cursorStyle,
-	          onClick: function onClick() {
-	            return _this.onMouseLeave(project);
-	          },
-	          onMouseEnter: function onMouseEnter() {
-	            return _this.onMouseEnter(project);
-	          },
-	          onMouseLeave: function onMouseLeave() {
-	            return _this.onMouseLeave(project);
-	          } });
-	      });
+	      cursorSpans = this.getCursors(stage, imageWidth, imageHeight);
 	    }
 
 	    var stageStyle = {
@@ -223,53 +325,15 @@
 	      height: imageHeight
 	    };
 
-	    var siteHeaderStyle = {
-	      color: stage.headerColor || "#D6C3BC"
-	    };
-
-	    if (stage.headerAlign == "right") {
-	      siteHeaderStyle.right = 0;
-	      siteHeaderStyle.textAlign = "right";
-	    } else {
-	      siteHeaderStyle.left = 0;
-	      siteHeaderStyle.textAlign = "left";
-	    }
-
 	    return React.createElement(
 	      "section",
 	      { className: "stage", style: stageStyle },
-	      React.createElement(
-	        "header",
-	        {
-	          className: "site-header",
-	          style: siteHeaderStyle
-	        },
-	        React.createElement(
-	          "h1",
-	          null,
-	          "Nolwenn Le Scao"
-	        ),
-	        React.createElement(
-	          "p",
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: "/about" },
-	            "À propos"
-	          ),
-	          " | ",
-	          React.createElement(
-	            Link,
-	            { to: "/contact" },
-	            "Contact"
-	          )
-	        )
-	      ),
+	      React.createElement(StageHeader, { stage: stage }),
 	      React.createElement("img", {
 	        ref: function ref(_ref) {
-	          return _this.image = _ref;
+	          return _this2.image = _ref;
 	        },
-	        className: "stage-image " + (projectId ? "stage-image-blurrrrrred" : ""),
+	        className: "stage-image",
 	        src: stage.stageId + "/background.jpg",
 	        style: stageImageStyle,
 	        onLoad: this.onImageLoaded }),
@@ -292,15 +356,7 @@
 	        },
 	        children ? React.cloneElement(children, { key: projectId }) : null
 	      ),
-	      React.createElement(
-	        "footer",
-	        { className: "site-footer" },
-	        React.createElement(
-	          "a",
-	          { href: "/" },
-	          "Photographies Inès Leroy-Galan"
-	        )
-	      )
+	      React.createElement(StageFooter, null)
 	    );
 	  }
 	});
@@ -308,9 +364,9 @@
 	var App = React.createClass({
 	  displayName: "App",
 	  render: function render() {
-	    var _props2 = this.props;
-	    var children = _props2.children;
-	    var params = _props2.params;
+	    var _props3 = this.props;
+	    var children = _props3.children;
+	    var params = _props3.params;
 	    var stageId = params.stageId;
 
 	    var stage = findStage(stageId);
@@ -346,7 +402,7 @@
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(React.createElement(
 	    Router,
-	    null,
+	    { history: history },
 	    routes
 	  ), document.getElementById("root"));
 	});
@@ -362,14 +418,17 @@
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(5)(content, {"singleton":true});
+	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/pierre/code/nolwenn/node_modules/css-loader/index.js!/Users/pierre/code/nolwenn/node_modules/autoprefixer-loader/index.js!/Users/pierre/code/nolwenn/node_modules/less-loader/index.js!/Users/pierre/code/nolwenn/css/index.less", function() {
-			var newContent = require("!!/Users/pierre/code/nolwenn/node_modules/css-loader/index.js!/Users/pierre/code/nolwenn/node_modules/autoprefixer-loader/index.js!/Users/pierre/code/nolwenn/node_modules/less-loader/index.js!/Users/pierre/code/nolwenn/css/index.less");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/autoprefixer-loader/index.js!./../node_modules/less-loader/index.js!./index.less", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/autoprefixer-loader/index.js!./../node_modules/less-loader/index.js!./index.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
 		// When the module is disposed, remove the <style> tags
 		module.hot.dispose(function() { update(); });
 	}
@@ -466,14 +525,15 @@
 				return memo;
 			};
 		},
-		isIE9 = memoize(function() {
-			return /msie 9\b/.test(window.navigator.userAgent.toLowerCase());
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
 		}),
 		getHeadElement = memoize(function () {
 			return document.head || document.getElementsByTagName("head")[0];
 		}),
 		singletonElement = null,
-		singletonCounter = 0;
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
 
 	module.exports = function(list, options) {
 		if(false) {
@@ -481,9 +541,12 @@
 		}
 
 		options = options || {};
-		// Force single-tag solution on IE9, which has a hard limit on the # of <style>
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
 		// tags it will allow on a page
-		if (typeof options.singleton === "undefined") options.singleton = isIE9();
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
 
 		var styles = listToStyles(list);
 		addStylesToDom(styles, options);
@@ -551,12 +614,45 @@
 		return styles;
 	}
 
-	function createStyleElement() {
-		var styleElement = document.createElement("style");
+	function insertStyleElement(options, styleElement) {
 		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
 		styleElement.type = "text/css";
-		head.appendChild(styleElement);
+		insertStyleElement(options, styleElement);
 		return styleElement;
+	}
+
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
 	}
 
 	function addStyle(obj, options) {
@@ -564,14 +660,27 @@
 
 		if (options.singleton) {
 			var styleIndex = singletonCounter++;
-			styleElement = singletonElement || (singletonElement = createStyleElement());
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
 			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
 			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
 		} else {
-			styleElement = createStyleElement();
+			styleElement = createStyleElement(options);
 			update = applyToTag.bind(null, styleElement);
-			remove = function () {
-				styleElement.parentNode.removeChild(styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
 			};
 		}
 
@@ -588,25 +697,20 @@
 		};
 	}
 
-	function replaceText(source, id, replacement) {
-		var boundaries = ["/** >>" + id + " **/", "/** " + id + "<< **/"];
-		var start = source.lastIndexOf(boundaries[0]);
-		var wrappedReplacement = replacement
-			? (boundaries[0] + replacement + boundaries[1])
-			: "";
-		if (source.lastIndexOf(boundaries[0]) >= 0) {
-			var end = source.lastIndexOf(boundaries[1]) + boundaries[1].length;
-			return source.slice(0, start) + wrappedReplacement + source.slice(end);
-		} else {
-			return source + wrappedReplacement;
-		}
-	}
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
 
 	function applyToSingletonTag(styleElement, index, remove, obj) {
 		var css = remove ? "" : obj.css;
 
-		if(styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = replaceText(styleElement.styleSheet.cssText, index, css);
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
 		} else {
 			var cssNode = document.createTextNode(css);
 			var childNodes = styleElement.childNodes;
@@ -624,13 +728,6 @@
 		var media = obj.media;
 		var sourceMap = obj.sourceMap;
 
-		if(sourceMap && typeof btoa === "function") {
-			try {
-				css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(JSON.stringify(sourceMap)) + " */";
-				css = "@import url(\"data:text/css;base64," + btoa(css) + "\")";
-			} catch(e) {}
-		}
-
 		if(media) {
 			styleElement.setAttribute("media", media)
 		}
@@ -643,6 +740,26 @@
 			}
 			styleElement.appendChild(document.createTextNode(css));
 		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
 	}
 
 
@@ -26857,11 +26974,62 @@
 
 	module.exports = {
 	  initialStage: "embrasee",
-	  stages: [__webpack_require__(271), __webpack_require__(266), __webpack_require__(272), __webpack_require__(268)]
+	  stages: [__webpack_require__(265), __webpack_require__(266), __webpack_require__(267), __webpack_require__(268)]
 	};
 
 /***/ },
-/* 265 */,
+/* 265 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	  stageId: "embrasee",
+	  backgroundColor: "#8A6E6B",
+	  projects: [{
+	    projectId: "cliches",
+	    cursor: { x: 73, y: 69, cursor: "03" },
+	    images: [{ src: "projet2/01.jpg", alt: "" }, { src: "projet2/02.jpg", alt: "" }, { src: "projet2/03.jpg", alt: "" }],
+	    title: "Clichés",
+	    subtitle: "Collection Printemps-Été",
+	    date: "06 • 2012",
+	    text: "\n        <p>Les idéaux esthétiques de l’amour passionnel prennent la forme de compositions florales.</p>\n        <p>Le cliché du bouquet de fleurs se délite peu à peu, il s’épanouit puis se répand comme un nuage de fumée.</p>\n      "
+	  }, {
+	    projectId: "premiere-cigarette",
+	    cursor: { x: 50, y: 43, cursor: "18" },
+	    images: [{ src: "projet1/01.jpg", alt: "" }, { src: "projet1/02.jpg", alt: "" }, { src: "projet1/03.jpg", alt: "" }],
+	    title: "Première Cigarette",
+	    subtitle: "Collection Automne-Hiver",
+	    date: "04 • 2012",
+	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      "
+	  }, {
+	    projectId: "hiver-nacre",
+	    cursor: { x: 46, y: 57, cursor: "06" },
+	    images: [{ src: "projet3/01.jpg", alt: "" }, { src: "projet3/02.jpg", alt: "" }],
+	    title: "Hiver Nacré",
+	    subtitle: "Collection Automne-Hiver",
+	    date: "02 • 2013",
+	    text: "\n        <p>Le charme de l’enfance est évoqué dans une combinaison espiègle de nuances chaudes et froides. Une palette délicate aux teintes pastel, semées de touches vives, donne à l’hiver la gaieté des jours de vacances.</p>\n      "
+	  }, {
+	    projectId: "cendrier",
+	    cursor: { x: 56, y: 83, cursor: "13" },
+	    images: [{ src: "projet4/01.jpg", alt: "" }, { src: "projet4/02.jpg", alt: "" }, { src: "projet4/03.jpg", alt: "" }, { src: "projet4/04.jpg", alt: "" }],
+	    title: "Cendrier",
+	    subtitle: "Collection Printemps-Été",
+	    date: "06 • 2012",
+	    text: "\n        <p>La cigarette comme la passion amoureuse caresse l’éphémère par sa consumation rapide.</p>\n        <p>Une nature morte métallique serait à l’image d’un mégot écrasé.</p>\n        <p>La matière, devient un objet usé et calciné : elle est le résultat de l’épuisement dans la tension qui s’opère entre deux corps.</p>\n      "
+	  }, {
+	    projectId: "particules",
+	    cursor: { x: 32, y: 6, cursor: "12" },
+	    images: [{ src: "projet5/01.jpg", alt: "" }, { src: "projet5/02.jpg", alt: "" }, { src: "projet5/03.jpg", alt: "" }, { src: "projet5/04.jpg", alt: "" }],
+	    title: "Particules",
+	    subtitle: "Dessins",
+	    date: "06 • 2014",
+	    text: "\n        <p>Ces visages à l’esthétique convenue incarnent le règne de l’image. Ce dernier tire sa force du maintient perpétuel de l’illusion.</p>\n        <p>Les êtres à la mode sont l’accomplissement d’un monde aux images sacrées, ils s’effacent dans le mirage de l’autoprojection.</p>\n      "
+	  }]
+	};
+
+/***/ },
 /* 266 */
 /***/ function(module, exports) {
 
@@ -26884,7 +27052,47 @@
 	};
 
 /***/ },
-/* 267 */,
+/* 267 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	  stageId: "chrysalide",
+	  backgroundColor: "#8A6E6B",
+	  headerAlign: "right",
+	  headerColor: "#B49A91",
+	  projects: [{
+	    projectId: "projet1",
+	    cursor: { x: 25, y: 80, cursor: "01" },
+	    images: [{ src: "projet1/01.jpg", alt: "" }],
+	    title: "Motifs",
+	    subtitle: "Collection Automne-Hiver",
+	    date: "04 • 2012",
+	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      ",
+	    subtext: "\n        <p>Disponible à la <a href=\"\">Étoffes granitée</a></p>"
+	  }, {
+	    projectId: "projet2",
+	    cursor: { x: 75, y: 50, cursor: "11" },
+	    images: [{ src: "projet2/01.jpg", alt: "" }, { src: "projet2/02.jpg", alt: "" }],
+	    title: "Motifs",
+	    subtitle: "Collection Automne-Hiver",
+	    date: "04 • 2012",
+	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      ",
+	    subtext: "\n        <p>Disponible à la <a href=\"\">Étoffes granitée</a></p>"
+	  }, {
+	    projectId: "projet3",
+	    cursor: { x: 42, y: 36, cursor: "19" },
+	    images: [{ src: "projet3/01.jpg", alt: "" }, { src: "projet3/02.jpg", alt: "" }],
+	    title: "Motifs",
+	    subtitle: "Collection Automne-Hiver",
+	    date: "04 • 2012",
+	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      ",
+	    subtext: "\n        <p>Disponible à la <a href=\"\">Étoffes granitée</a></p>"
+	  }]
+	};
+
+/***/ },
 /* 268 */
 /***/ function(module, exports) {
 
@@ -27010,99 +27218,6 @@
 
 	module.exports = createFindIndex;
 
-
-/***/ },
-/* 271 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = {
-	  stageId: "embrasee",
-	  backgroundColor: "#8A6E6B",
-	  projects: [{
-	    projectId: "cliches",
-	    cursor: { x: 73, y: 69, cursor: "03" },
-	    images: [{ src: "projet2/01.jpg", alt: "" }, { src: "projet2/02.jpg", alt: "" }, { src: "projet2/03.jpg", alt: "" }],
-	    title: "Clichés",
-	    subtitle: "Collection Printemps-Été",
-	    date: "06 • 2012",
-	    text: "\n        <p>Les idéaux esthétiques de l’amour passionnel prennent la forme de compositions florales.</p>\n        <p>Le cliché du bouquet de fleurs se délite peu à peu, il s’épanouit puis se répand comme un nuage de fumée.</p>\n      "
-	  }, {
-	    projectId: "premiere-cigarette",
-	    cursor: { x: 50, y: 43, cursor: "18" },
-	    images: [{ src: "projet1/01.jpg", alt: "" }, { src: "projet1/02.jpg", alt: "" }, { src: "projet1/03.jpg", alt: "" }],
-	    title: "Première Cigarette",
-	    subtitle: "Collection Automne-Hiver",
-	    date: "04 • 2012",
-	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      "
-	  }, {
-	    projectId: "hiver-nacre",
-	    cursor: { x: 46, y: 57, cursor: "06" },
-	    images: [{ src: "projet3/01.jpg", alt: "" }, { src: "projet3/02.jpg", alt: "" }],
-	    title: "Hiver Nacré",
-	    subtitle: "Collection Automne-Hiver",
-	    date: "02 • 2013",
-	    text: "\n        <p>Le charme de l’enfance est évoqué dans une combinaison espiègle de nuances chaudes et froides. Une palette délicate aux teintes pastel, semées de touches vives, donne à l’hiver la gaieté des jours de vacances.</p>\n      "
-	  }, {
-	    projectId: "cendrier",
-	    cursor: { x: 56, y: 83, cursor: "13" },
-	    images: [{ src: "projet4/01.jpg", alt: "" }, { src: "projet4/02.jpg", alt: "" }, { src: "projet4/03.jpg", alt: "" }, { src: "projet4/04.jpg", alt: "" }],
-	    title: "Cendrier",
-	    subtitle: "Collection Printemps-Été",
-	    date: "06 • 2012",
-	    text: "\n        <p>La cigarette comme la passion amoureuse caresse l’éphémère par sa consumation rapide.</p>\n        <p>Une nature morte métallique serait à l’image d’un mégot écrasé.</p>\n        <p>La matière, devient un objet usé et calciné : elle est le résultat de l’épuisement dans la tension qui s’opère entre deux corps.</p>\n      "
-	  }, {
-	    projectId: "particules",
-	    cursor: { x: 32, y: 6, cursor: "12" },
-	    images: [{ src: "projet5/01.jpg", alt: "" }, { src: "projet5/02.jpg", alt: "" }, { src: "projet5/03.jpg", alt: "" }, { src: "projet5/04.jpg", alt: "" }],
-	    title: "Particules",
-	    subtitle: "Dessins",
-	    date: "06 • 2014",
-	    text: "\n        <p>Ces visages à l’esthétique convenue incarnent le règne de l’image. Ce dernier tire sa force du maintient perpétuel de l’illusion.</p>\n        <p>Les êtres à la mode sont l’accomplissement d’un monde aux images sacrées, ils s’effacent dans le mirage de l’autoprojection.</p>\n      "
-	  }]
-	};
-
-/***/ },
-/* 272 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = {
-	  stageId: "chrysalide",
-	  backgroundColor: "#8A6E6B",
-	  headerAlign: "right",
-	  headerColor: "#B49A91",
-	  projects: [{
-	    projectId: "projet1",
-	    cursor: { x: 25, y: 80, cursor: "01" },
-	    images: [{ src: "projet1/01.jpg", alt: "" }],
-	    title: "Motifs",
-	    subtitle: "Collection Automne-Hiver",
-	    date: "04 • 2012",
-	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      ",
-	    subtext: "\n        <p>Disponible à la <a href=\"\">Étoffes granitée</a></p>"
-	  }, {
-	    projectId: "projet2",
-	    cursor: { x: 75, y: 50, cursor: "11" },
-	    images: [{ src: "projet2/01.jpg", alt: "" }, { src: "projet2/02.jpg", alt: "" }],
-	    title: "Motifs",
-	    subtitle: "Collection Automne-Hiver",
-	    date: "04 • 2012",
-	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      ",
-	    subtext: "\n        <p>Disponible à la <a href=\"\">Étoffes granitée</a></p>"
-	  }, {
-	    projectId: "projet3",
-	    cursor: { x: 42, y: 36, cursor: "19" },
-	    images: [{ src: "projet3/01.jpg", alt: "" }, { src: "projet3/02.jpg", alt: "" }],
-	    title: "Motifs",
-	    subtitle: "Collection Automne-Hiver",
-	    date: "04 • 2012",
-	    text: "\n        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>\n        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>\n      ",
-	    subtext: "\n        <p>Disponible à la <a href=\"\">Étoffes granitée</a></p>"
-	  }]
-	};
 
 /***/ }
 /******/ ]);
