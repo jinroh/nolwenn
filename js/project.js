@@ -1,15 +1,11 @@
 const React = require("react");
 const ReactCSSTransitionGroup = require("react-addons-css-transition-group");
 const { Link } = require("react-router");
-const { findStage, findProject } = require("../helpers");
+const { findStage, findProject, findSiblingProject } = require("./helpers");
 const findIndex = require("lodash/array/findIndex");
 
 function toDangerousHtml(text) {
   return { __html: text };
-}
-
-function modulus(array, index) {
-  return array[(index + array.length) % array.length];
 }
 
 var ProjectDescription = React.createClass({
@@ -18,8 +14,8 @@ var ProjectDescription = React.createClass({
     const { stageId, projects } = stage;
     const { projectId } = project;
 
-    const nextProjectId = modulus(projects, findIndex(projects, project) + 1).projectId;
-    const prevProjectId = modulus(projects, findIndex(projects, project) - 1).projectId;
+    const prevProject = findSiblingProject(projects, projectId, -1);
+    const nextProject = findSiblingProject(projects, projectId, +1);
 
     const {
       title,
@@ -51,14 +47,14 @@ var ProjectDescription = React.createClass({
             </article>
           : null }
         <nav className="project-navigation">
-          {prevProjectId !== projectId
-            ? <Link to={`${stageId}/${prevProjectId}`} className="project-navigation-arrow">‹</Link>
+          {prevProject
+            ? <Link to={`${stageId}/${prevProject.projectId}`} className="project-navigation-arrow">‹</Link>
             : null}
           <img
             className="project-navigation-donut"
             src={`images/${cursor.cursor}.gif`} />
-          {prevProjectId !== projectId
-            ? <Link to={`${stageId}/${nextProjectId}`} className="project-navigation-arrow">›</Link>
+          {nextProject
+            ? <Link to={`${stageId}/${nextProject.projectId}`} className="project-navigation-arrow">›</Link>
             : null}
         </nav>
       </section>

@@ -5,13 +5,11 @@ const ReactDOM = require("react-dom");
 const ReactCSSTransitionGroup = require("react-addons-css-transition-group");
 const { Router, Route, IndexRedirect, Link } = require("react-router");
 const createHashHistory = require("history/lib/createHashHistory");
-const { ProjectViewer } = require("./components/project");
+const { ProjectViewer } = require("./project");
 const { initialStage } = require("../public");
-const { findStage, throttle } = require("./helpers");
+const { findStage, findSiblingStage, throttle } = require("./helpers");
 
-const history = createHashHistory({
-  queryKey: false
-});
+const history = createHashHistory({ queryKey: false });
 
 throttle("resize", "throttledResize", window);
 
@@ -193,11 +191,9 @@ const StageViewer = React.createClass({
     }
 
     const stageStyle = {
-      opacity: imgLoaded ? 1 : 0,
-      transition: "opacity 3s",
+      // opacity: imgLoaded ? 1 : 0,
+      // transition: "opacity 3s",
       width: imageWidth,
-      height: imageHeight,
-      margin: "auto",
     };
 
     const stageImageStyle = {
@@ -219,6 +215,7 @@ const StageViewer = React.createClass({
         {cursorSpans}
 
         <ReactCSSTransitionGroup
+          component="div"
           transitionName="unroll"
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
@@ -227,6 +224,7 @@ const StageViewer = React.createClass({
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
+          component="div"
           transitionName="opacity"
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
@@ -243,6 +241,19 @@ const StageViewer = React.createClass({
 });
 
 const App = React.createClass({
+  componentWillMount() {
+    document.addEventListener("keydown", ({ keyCode }) => {
+      const { params: { stageId } } = this.props;
+      let nextStage;
+      switch(keyCode) {
+      case 33: nextStage = findSiblingStage(stageId, -1); break;
+      case 34: nextStage = findSiblingStage(stageId, +1); break;
+      }
+      if (nextStage) {
+        history.push(`/${nextStage.stageId}`);
+      }
+    });
+  },
   render() {
     const { children, params } = this.props;
     const { stageId } = params;
@@ -251,14 +262,18 @@ const App = React.createClass({
     const mainStyle = {
       backgroundColor: stage.backgroundColor,
       backgroundImage: `url(${stageId}/background_blur.jpg)`,
-      backgroundSize: "100% auto",
-      backgroundRepeat: "no-repeat",
     };
 
     return (
-      <main style={mainStyle}>
-        {children}
-      </main>
+      <ReactCSSTransitionGroup
+        component="main"
+        style={mainStyle}
+        transitionName="translate"
+        transitionEnterTimeout={1000}
+        transitionLeaveTimeout={1000}
+      >
+        {React.cloneElement(children, { key: stageId })}
+      </ReactCSSTransitionGroup>
     );
   }
 });

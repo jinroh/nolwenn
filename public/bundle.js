@@ -61,7 +61,7 @@
 
 	var createHashHistory = __webpack_require__(169);
 
-	var _require2 = __webpack_require__(213);
+	var _require2 = __webpack_require__(271);
 
 	var ProjectViewer = _require2.ProjectViewer;
 
@@ -72,11 +72,10 @@
 	var _require4 = __webpack_require__(214);
 
 	var findStage = _require4.findStage;
+	var findSiblingStage = _require4.findSiblingStage;
 	var throttle = _require4.throttle;
 
-	var history = createHashHistory({
-	  queryKey: false
-	});
+	var history = createHashHistory({ queryKey: false });
 
 	throttle("resize", "throttledResize", window);
 
@@ -313,11 +312,9 @@
 	    }
 
 	    var stageStyle = {
-	      opacity: imgLoaded ? 1 : 0,
-	      transition: "opacity 3s",
-	      width: imageWidth,
-	      height: imageHeight,
-	      margin: "auto"
+	      // opacity: imgLoaded ? 1 : 0,
+	      // transition: "opacity 3s",
+	      width: imageWidth
 	    };
 
 	    var stageImageStyle = {
@@ -341,6 +338,7 @@
 	      React.createElement(
 	        ReactCSSTransitionGroup,
 	        {
+	          component: "div",
 	          transitionName: "unroll",
 	          transitionEnterTimeout: 500,
 	          transitionLeaveTimeout: 500
@@ -350,6 +348,7 @@
 	      React.createElement(
 	        ReactCSSTransitionGroup,
 	        {
+	          component: "div",
 	          transitionName: "opacity",
 	          transitionEnterTimeout: 500,
 	          transitionLeaveTimeout: 500
@@ -363,6 +362,25 @@
 
 	var App = React.createClass({
 	  displayName: "App",
+	  componentWillMount: function componentWillMount() {
+	    var _this3 = this;
+
+	    document.addEventListener("keydown", function (_ref2) {
+	      var keyCode = _ref2.keyCode;
+	      var stageId = _this3.props.params.stageId;
+
+	      var nextStage = undefined;
+	      switch (keyCode) {
+	        case 33:
+	          nextStage = findSiblingStage(stageId, -1);break;
+	        case 34:
+	          nextStage = findSiblingStage(stageId, +1);break;
+	      }
+	      if (nextStage) {
+	        history.push("/" + nextStage.stageId);
+	      }
+	    });
+	  },
 	  render: function render() {
 	    var _props3 = this.props;
 	    var children = _props3.children;
@@ -373,15 +391,19 @@
 
 	    var mainStyle = {
 	      backgroundColor: stage.backgroundColor,
-	      backgroundImage: "url(" + stageId + "/background_blur.jpg)",
-	      backgroundSize: "100% auto",
-	      backgroundRepeat: "no-repeat"
+	      backgroundImage: "url(" + stageId + "/background_blur.jpg)"
 	    };
 
 	    return React.createElement(
-	      "main",
-	      { style: mainStyle },
-	      children
+	      ReactCSSTransitionGroup,
+	      {
+	        component: "main",
+	        style: mainStyle,
+	        transitionName: "translate",
+	        transitionEnterTimeout: 1000,
+	        transitionLeaveTimeout: 1000
+	      },
+	      React.cloneElement(children, { key: stageId })
 	    );
 	  }
 	});
@@ -442,7 +464,7 @@
 
 
 	// module
-	exports.push([module.id, "a,\nabbr,\nacronym,\naddress,\napplet,\narticle,\naside,\naudio,\nb,\nbig,\nblockquote,\nbody,\nbutton,\ncanvas,\ncaption,\ncenter,\ncite,\ncode,\ndd,\ndel,\ndetails,\ndfn,\ndiv,\ndl,\ndt,\nem,\nembed,\nfieldset,\nfigcaption,\nfigure,\nfooter,\nform,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\nheader,\nhgroup,\nhtml,\ni,\niframe,\nimg,\nins,\nkbd,\nlabel,\nlegend,\nli,\nmark,\nmenu,\nnav,\nobject,\nol,\noutput,\np,\npre,\nq,\nruby,\ns,\nsamp,\nsection,\nsmall,\nspan,\nstrike,\nstrong,\nsub,\nsummary,\nsup,\ntable,\ntbody,\ntd,\ntfoot,\nth,\nthead,\ntime,\ntr,\ntt,\nu,\nul,\nvar,\nvideo {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font: inherit;\n  vertical-align: baseline;\n  image-rendering: optimizeQuality;\n}\n@font-face {\n  font-family: \"prumo-display-extralight\";\n  src: url(" + __webpack_require__(4) + ");\n  font-stretch: normal;\n}\nbody {\n  image-rendering: -webkit-optimize-contrast;\n  font-family: \"Roboto\", sans-serif;\n  overflow: hidden;\n  font-size: .95em;\n  color: #ED7A77;\n}\ni {\n  font-style: italic;\n}\n*,\n*::before,\n*::after {\n  box-shadow: border-box;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n}\n::-moz-selection {\n  background: #FAFAFA;\n}\n::selection {\n  background: #FAFAFA;\n}\n::-moz-selection {\n  background: #FAFAFA;\n}\n.noselect {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\na {\n  color: inherit;\n  text-decoration: underline;\n}\nul,\nmenu {\n  list-style: none;\n}\nstrong {\n  font-weight: bold;\n}\nbody {\n  font-family: \"Roboto\", sans-serif;\n  width: 100%;\n}\n.site-header {\n  position: absolute;\n  top: 0;\n  z-index: 10;\n  padding: .5em 1em 0 1em;\n  color: #D6C3BC;\n}\n.site-header h1 {\n  font-family: \"prumo-display-extralight\", serif;\n  font-size: 2em;\n  color: inherit;\n}\n.site-header p {\n  font-family: \"Roboto\", sans-serif;\n  text-transform: uppercase;\n  font-size: .5em;\n  letter-spacing: 0.04em;\n}\n.site-header a {\n  text-decoration: none;\n}\n.site-header a:hover {\n  text-decoration: underline;\n}\n.site-footer {\n  position: absolute;\n  bottom: 1%;\n  right: 1%;\n  color: #655C58;\n  font-family: \"Roboto\", sans-serif;\n  text-transform: uppercase;\n  font-size: .5em;\n  letter-spacing: 0.04em;\n}\n.site-footer a {\n  text-decoration: none;\n}\n.stage {\n  position: relative;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n}\n.stage .project-tooltip {\n  position: absolute;\n  background-color: rgba(40, 27, 10, 0.6);\n  box-shadow: 0px 0px 1px 0px rgba(40, 27, 10, 0.6);\n  color: #F4E6E1;\n  font-family: \"Roboto\", sans-serif;\n  font-size: .8em;\n  letter-spacing: .05em;\n}\n.stage .project-tooltip .project-tooltip-subtitle {\n  font-style: italic;\n  font-weight: 100;\n}\n.stage .project-tooltip .project-tooltip-date {\n  font-size: .8em;\n  font-weight: 100;\n  padding: .5em 0 .05em 0;\n}\n.stage .project-tooltip .project-tooltip-date > span {\n  border-top: #C3B9B5 1px solid;\n  border-bottom: #C3B9B5 1px solid;\n}\n.stage .project-tooltip > div {\n  padding: .4em .5em .6em 2em;\n}\n.stage .project-tooltip > div p {\n  padding: .05em 0;\n}\n.stage-image {\n  -webkit-transition: width 100ms, height 100ms;\n  transition: width 100ms, height 100ms;\n}\n.cursor {\n  position: absolute;\n  background-size: cover;\n  cursor: pointer;\n}\n.project-container {\n  position: fixed;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(255, 255, 255, 0.5);\n}\n.project-viewer {\n  position: relative;\n  border: 1px solid #EDD7D6;\n  width: 90%;\n  height: 80%;\n  overflow: hidden;\n}\n.project-slide-show {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  overflow: hidden;\n  background-color: #EFE7E8;\n}\n.project-slide-show .image-navigation {\n  position: absolute;\n  bottom: 1%;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.project-slide-show .image-navigation a {\n  text-decoration: none;\n}\n.project-slide-show .image-navigation .image-navigation-dot {\n  border-radius: 50%;\n  border: 1px solid #EDBFBE;\n  width: 10px;\n  height: 10px;\n  margin: 4px;\n  padding: 2px;\n  background-clip: content-box;\n}\n.project-slide-show .image-navigation .image-navigation-dot.image-navigation-dot-selected {\n  background-color: #ED7A77;\n}\n.project-slide-show .project-image {\n  position: absolute;\n  bottom: -10%;\n  left: 0;\n  width: 100%;\n}\n.project-description {\n  position: absolute;\n  right: 80px;\n  bottom: 80px;\n  width: 180px;\n}\n.project-description .project-description-title {\n  text-transform: uppercase;\n  margin: 0 0 1em 0;\n  font-size: 1em;\n}\n.project-description .project-description-subtitle {\n  margin: 1em 0 0 0;\n  font-size: 0.85em;\n}\n.project-description .project-description-title,\n.project-description .project-description-subtitle {\n  font-family: \"prumo-display-extralight\", serif;\n  font-weight: 100;\n}\n.project-description .project-description-date {\n  border-top: #EDBFBE 1px solid;\n  border-bottom: #EDBFBE 1px solid;\n  line-height: 1.5em;\n  font-size: 0.7em;\n}\n.project-description .project-description-text {\n  font-family: \"Roboto\", sans-serif;\n  line-height: 1.5em;\n  font-size: 0.7em;\n}\n.project-description .project-description-text p {\n  margin: 1em 0;\n}\n.project-description hr {\n  width: 47px;\n  display: block;\n  height: 1px;\n  border: 0;\n  border-top: 1px solid #EDBFBE;\n  margin: 1em 0;\n  padding: 0;\n}\n.project-navigation {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  margin-top: 3em;\n  text-align: center;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.project-navigation .project-navigation-donut {\n  width: 50px;\n  height: 50px;\n}\n.project-navigation .project-navigation-arrow {\n  color: #EFACA8;\n  font-family: \"prumo-display-extralight\";\n  font-size: 10em;\n  line-height: .5em;\n  text-decoration: none;\n  margin-top: -0.2em;\n}\n.project-navigation .project-navigation-arrow:first-child {\n  margin-right: -0.07em;\n}\n.project-close {\n  color: #EFACA8;\n  font-family: \"prumo-display-extralight\";\n  font-weight: 100;\n  position: absolute;\n  top: 0;\n  right: 0;\n  font-size: 10em;\n  line-height: 0.5em;\n  cursor: pointer;\n}\n.opacity-enter {\n  opacity: 0.01;\n}\n.opacity-enter.opacity-enter-active {\n  opacity: 1;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.opacity-leave {\n  opacity: 1;\n}\n.opacity-leave.opacity-leave-active {\n  opacity: 0.01;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.unroll-enter {\n  max-height: 0;\n  overflow: hidden;\n}\n.unroll-enter.unroll-enter-active {\n  max-height: 70px;\n  -webkit-transition: max-height 400ms ease-out;\n  transition: max-height 400ms ease-out;\n  overflow: hidden;\n}\n.unroll-leave {\n  max-height: 70px;\n  overflow: hidden;\n}\n.unroll-leave.unroll-leave-active {\n  max-height: 0;\n  -webkit-transition: max-height 400ms ease-out;\n  transition: max-height 400ms ease-out;\n  overflow: hidden;\n}\n", ""]);
+	exports.push([module.id, "a,\nabbr,\nacronym,\naddress,\napplet,\narticle,\naside,\naudio,\nb,\nbig,\nblockquote,\nbody,\nbutton,\ncanvas,\ncaption,\ncenter,\ncite,\ncode,\ndd,\ndel,\ndetails,\ndfn,\ndiv,\ndl,\ndt,\nem,\nembed,\nfieldset,\nfigcaption,\nfigure,\nfooter,\nform,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\nheader,\nhgroup,\nhtml,\ni,\niframe,\nimg,\nins,\nkbd,\nlabel,\nlegend,\nli,\nmark,\nmenu,\nnav,\nobject,\nol,\noutput,\np,\npre,\nq,\nruby,\ns,\nsamp,\nsection,\nsmall,\nspan,\nstrike,\nstrong,\nsub,\nsummary,\nsup,\ntable,\ntbody,\ntd,\ntfoot,\nth,\nthead,\ntime,\ntr,\ntt,\nu,\nul,\nvar,\nvideo {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font: inherit;\n  vertical-align: baseline;\n  image-rendering: optimizeQuality;\n}\n@font-face {\n  font-family: \"prumo-display-extralight\";\n  src: url(" + __webpack_require__(4) + ");\n  font-stretch: normal;\n}\nbody {\n  image-rendering: -webkit-optimize-contrast;\n  font-family: \"Roboto\", sans-serif;\n  overflow: hidden;\n  font-size: .95em;\n  color: #ED7A77;\n}\ni {\n  font-style: italic;\n}\n*,\n*::before,\n*::after {\n  box-shadow: border-box;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n}\n::-moz-selection {\n  background: #FAFAFA;\n}\n::selection {\n  background: #FAFAFA;\n}\n::-moz-selection {\n  background: #FAFAFA;\n}\n.noselect {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\na {\n  color: inherit;\n  text-decoration: underline;\n}\nul,\nmenu {\n  list-style: none;\n}\nstrong {\n  font-weight: bold;\n}\nbody {\n  font-family: \"Roboto\", sans-serif;\n  width: 100%;\n}\nmain {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  background-size: 100% auto;\n  background-repeat: no-repeat;\n}\n.site-header {\n  position: absolute;\n  top: 0;\n  z-index: 10;\n  padding: .5em 1em 0 1em;\n  color: #D6C3BC;\n}\n.site-header h1 {\n  font-family: \"prumo-display-extralight\", serif;\n  font-size: 2em;\n  color: inherit;\n}\n.site-header p {\n  font-family: \"Roboto\", sans-serif;\n  text-transform: uppercase;\n  font-size: .5em;\n  letter-spacing: 0.04em;\n}\n.site-header a {\n  text-decoration: none;\n}\n.site-header a:hover {\n  text-decoration: underline;\n}\n.site-footer {\n  position: absolute;\n  bottom: 1%;\n  right: 1%;\n  color: #655C58;\n  font-family: \"Roboto\", sans-serif;\n  text-transform: uppercase;\n  font-size: .5em;\n  letter-spacing: 0.04em;\n}\n.site-footer a {\n  text-decoration: none;\n}\n.stage {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  margin: 0 auto;\n}\n.stage .project-tooltip {\n  position: absolute;\n  background-color: rgba(40, 27, 10, 0.6);\n  box-shadow: 0px 0px 1px 0px rgba(40, 27, 10, 0.6);\n  color: #F4E6E1;\n  font-family: \"Roboto\", sans-serif;\n  font-size: .8em;\n  letter-spacing: .05em;\n}\n.stage .project-tooltip .project-tooltip-subtitle {\n  font-style: italic;\n  font-weight: 100;\n}\n.stage .project-tooltip .project-tooltip-date {\n  font-size: .8em;\n  font-weight: 100;\n  padding: .5em 0 .05em 0;\n}\n.stage .project-tooltip .project-tooltip-date > span {\n  border-top: #C3B9B5 1px solid;\n  border-bottom: #C3B9B5 1px solid;\n}\n.stage .project-tooltip > div {\n  padding: .4em .5em .6em 2em;\n}\n.stage .project-tooltip > div p {\n  padding: .05em 0;\n}\n.cursor {\n  position: absolute;\n  background-size: cover;\n  cursor: pointer;\n}\n.project-container {\n  position: absolute;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(255, 255, 255, 0.5);\n}\n.project-viewer {\n  position: relative;\n  border: 1px solid #EDD7D6;\n  width: 90%;\n  height: 80%;\n  overflow: hidden;\n}\n.project-slide-show {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  overflow: hidden;\n  background-color: #EFE7E8;\n}\n.project-slide-show .image-navigation {\n  position: absolute;\n  bottom: 1%;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  width: 100%;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.project-slide-show .image-navigation a {\n  text-decoration: none;\n}\n.project-slide-show .image-navigation .image-navigation-dot {\n  border-radius: 50%;\n  border: 1px solid #EDBFBE;\n  width: 10px;\n  height: 10px;\n  margin: 4px;\n  padding: 2px;\n  background-clip: content-box;\n}\n.project-slide-show .image-navigation .image-navigation-dot.image-navigation-dot-selected {\n  background-color: #ED7A77;\n}\n.project-slide-show .project-image {\n  position: absolute;\n  bottom: -10%;\n  left: 0;\n  width: 100%;\n}\n.project-description {\n  position: absolute;\n  right: 80px;\n  bottom: 80px;\n  width: 180px;\n}\n.project-description .project-description-title {\n  text-transform: uppercase;\n  margin: 0 0 1em 0;\n  font-size: 1em;\n}\n.project-description .project-description-subtitle {\n  margin: 1em 0 0 0;\n  font-size: 0.85em;\n}\n.project-description .project-description-title,\n.project-description .project-description-subtitle {\n  font-family: \"prumo-display-extralight\", serif;\n  font-weight: 100;\n}\n.project-description .project-description-date {\n  border-top: #EDBFBE 1px solid;\n  border-bottom: #EDBFBE 1px solid;\n  line-height: 1.5em;\n  font-size: 0.7em;\n}\n.project-description .project-description-text {\n  font-family: \"Roboto\", sans-serif;\n  line-height: 1.5em;\n  font-size: 0.7em;\n}\n.project-description .project-description-text p {\n  margin: 1em 0;\n}\n.project-description hr {\n  width: 47px;\n  display: block;\n  height: 1px;\n  border: 0;\n  border-top: 1px solid #EDBFBE;\n  margin: 1em 0;\n  padding: 0;\n}\n.project-navigation {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  margin-top: 3em;\n  text-align: center;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.project-navigation .project-navigation-donut {\n  width: 50px;\n  height: 50px;\n}\n.project-navigation .project-navigation-arrow {\n  color: #EFACA8;\n  font-family: \"prumo-display-extralight\";\n  font-size: 10em;\n  line-height: .5em;\n  text-decoration: none;\n  margin-top: -0.2em;\n}\n.project-navigation .project-navigation-arrow:first-child {\n  margin-right: -0.07em;\n}\n.project-close {\n  color: #EFACA8;\n  font-family: \"prumo-display-extralight\";\n  font-weight: 100;\n  position: absolute;\n  top: 0;\n  right: 0;\n  font-size: 10em;\n  line-height: 0.5em;\n  cursor: pointer;\n}\n.opacity-enter {\n  opacity: 0.01;\n}\n.opacity-enter.opacity-enter-active {\n  opacity: 1;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.opacity-leave {\n  opacity: 1;\n}\n.opacity-leave.opacity-leave-active {\n  opacity: 0.01;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.unroll-enter {\n  max-height: 0;\n  overflow: hidden;\n}\n.unroll-enter.unroll-enter-active {\n  max-height: 70px;\n  -webkit-transition: max-height 400ms ease-out;\n  transition: max-height 400ms ease-out;\n  overflow: hidden;\n}\n.unroll-leave {\n  max-height: 70px;\n  overflow: hidden;\n}\n.unroll-leave.unroll-leave-active {\n  max-height: 0;\n  -webkit-transition: max-height 400ms ease-out;\n  transition: max-height 400ms ease-out;\n  overflow: hidden;\n}\n.translate-leave {\n  opacity: 1;\n}\n.translate-leave.translate-leave-active {\n  opacity: 0;\n  -webkit-transition: opacity 1s ease-out, -webkit-transform 1s ease-in !important;\n  transition: opacity 1s ease-out, -webkit-transform 1s ease-in !important;\n  transition: opacity 1s ease-out, transform 1s ease-in !important;\n  transition: opacity 1s ease-out, transform 1s ease-in, -webkit-transform 1s ease-in !important;\n}\n", ""]);
 
 	// exports
 
@@ -24789,268 +24811,21 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 213 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(6);
-	var ReactCSSTransitionGroup = __webpack_require__(159);
-
-	var _require = __webpack_require__(166);
-
-	var Link = _require.Link;
-
-	var _require2 = __webpack_require__(214);
-
-	var findStage = _require2.findStage;
-	var findProject = _require2.findProject;
-
-	var findIndex = __webpack_require__(269);
-
-	function toDangerousHtml(text) {
-	  return { __html: text };
-	}
-
-	function modulus(array, index) {
-	  return array[(index + array.length) % array.length];
-	}
-
-	var ProjectDescription = React.createClass({
-	  displayName: "ProjectDescription",
-	  render: function render() {
-	    var _props = this.props;
-	    var project = _props.project;
-	    var stage = _props.stage;
-	    var stageId = stage.stageId;
-	    var projects = stage.projects;
-	    var projectId = project.projectId;
-
-	    var nextProjectId = modulus(projects, findIndex(projects, project) + 1).projectId;
-	    var prevProjectId = modulus(projects, findIndex(projects, project) - 1).projectId;
-
-	    var title = project.title;
-	    var subtitle = project.subtitle;
-	    var date = project.date;
-	    var text = project.text;
-	    var subtext = project.subtext;
-	    var cursor = project.cursor;
-
-	    return React.createElement(
-	      "section",
-	      { className: "project-description" },
-	      React.createElement("h2", {
-	        className: "project-description-subtitle",
-	        dangerouslySetInnerHTML: toDangerousHtml(subtitle) }),
-	      React.createElement("h1", {
-	        className: "project-description-title",
-	        dangerouslySetInnerHTML: toDangerousHtml(title) }),
-	      React.createElement(
-	        "span",
-	        { className: "project-description-date" },
-	        date
-	      ),
-	      React.createElement("article", {
-	        className: "project-description-text",
-	        dangerouslySetInnerHTML: toDangerousHtml(text) }),
-	      subtext ? React.createElement("hr", null) : null,
-	      subtext ? React.createElement("article", {
-	        className: "project-description-text",
-	        dangerouslySetInnerHTML: toDangerousHtml(subtext) }) : null,
-	      React.createElement(
-	        "nav",
-	        { className: "project-navigation" },
-	        prevProjectId !== projectId ? React.createElement(
-	          Link,
-	          { to: stageId + "/" + prevProjectId, className: "project-navigation-arrow" },
-	          "‹"
-	        ) : null,
-	        React.createElement("img", {
-	          className: "project-navigation-donut",
-	          src: "images/" + cursor.cursor + ".gif" }),
-	        prevProjectId !== projectId ? React.createElement(
-	          Link,
-	          { to: stageId + "/" + nextProjectId, className: "project-navigation-arrow" },
-	          "›"
-	        ) : null
-	      )
-	    );
-	  }
-	});
-
-	var ProjectSlideShow = React.createClass({
-	  displayName: "ProjectSlideShow",
-	  getInitialState: function getInitialState() {
-	    return { currentImageIndex: 0 };
-	  },
-	  componentWillMount: function componentWillMount() {
-	    this.startCarousel();
-	    document.addEventListener("keydown", this.onKeyDown);
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    clearInterval(this.interval);
-	    document.removeEventListener("keydown", this.onKeyDown);
-	  },
-	  startCarousel: function startCarousel() {
-	    this.stopCarousel();
-	    this.interval = setInterval(this.goNextImage, 6000);
-	  },
-	  stopCarousel: function stopCarousel() {
-	    clearInterval(this.interval);
-	  },
-	  onKeyDown: function onKeyDown(evt) {
-	    var keyCode = evt.keyCode;
-
-	    if (keyCode === 39) {
-	      this.startCarousel();
-	      this.goNextImage(+1);
-	    } else if (keyCode === 37) {
-	      this.startCarousel();
-	      this.goNextImage(-1);
-	    } else if (keyCode === 27) {
-	      this.props.onClose();
-	    }
-	  },
-	  onClickImage: function onClickImage() {
-	    this.stopCarousel();
-	    this.goNextImage(1);
-	  },
-	  goNextImage: function goNextImage(inc) {
-	    var images = this.props.project.images;
-	    var currentImageIndex = this.state.currentImageIndex;
-
-	    currentImageIndex = (currentImageIndex + (inc || 1) + images.length) % images.length;
-	    this.setState({ currentImageIndex: currentImageIndex });
-	  },
-	  goImage: function goImage(evt, image) {
-	    evt.preventDefault();
-	    this.stopCarousel();
-	    var currentImageIndex = findIndex(this.props.project.images, image);
-	    if (currentImageIndex >= 0) {
-	      this.setState({ currentImageIndex: currentImageIndex });
-	    }
-	  },
-	  render: function render() {
-	    var _this = this;
-
-	    var currentImageIndex = this.state.currentImageIndex;
-	    var _props2 = this.props;
-	    var stage = _props2.stage;
-	    var project = _props2.project;
-	    var images = project.images;
-
-	    var selectedImage = images[currentImageIndex];
-
-	    return React.createElement(
-	      "section",
-	      { className: "project-slide-show" },
-	      React.createElement(
-	        ReactCSSTransitionGroup,
-	        {
-	          className: "project-slide-show-wrapper",
-	          transitionName: "opacity",
-	          transitionEnterTimeout: 400,
-	          transitionLeaveTimeout: 400
-	        },
-	        React.createElement(ProjectImage, {
-	          key: currentImageIndex,
-	          imageSrc: stage.stageId + "/" + selectedImage.src,
-	          onClick: this.onClickImage })
-	      ),
-	      React.createElement(
-	        "nav",
-	        { className: "image-navigation noselect" },
-	        images.map(function (image, index) {
-	          return React.createElement(
-	            "a",
-	            {
-	              href: "#",
-	              key: index,
-	              onClick: function onClick(evt) {
-	                return _this.goImage(evt, image);
-	              },
-	              className: "image-navigation-dot " + (image === selectedImage ? "image-navigation-dot-selected" : "")
-	            },
-	            " "
-	          );
-	        })
-	      )
-	    );
-	  }
-	});
-
-	var ProjectImage = React.createClass({
-	  displayName: "ProjectImage",
-	  render: function render() {
-	    return React.createElement("img", {
-	      className: "project-image",
-	      src: this.props.imageSrc,
-	      onClick: this.props.onClick });
-	  }
-	});
-
-	var ProjectViewer = React.createClass({
-	  displayName: "ProjectViewer",
-	  onClose: function onClose() {
-	    var params = this.props.params;
-	    var stageId = params.stageId;
-
-	    this.props.history.push("/" + stageId);
-	  },
-	  onClickContainer: function onClickContainer(evt) {
-	    if (evt.target.className === "project-container") {
-	      this.onClose();
-	    }
-	  },
-	  render: function render() {
-	    var params = this.props.params;
-	    var stageId = params.stageId;
-	    var projectId = params.projectId;
-
-	    var stage = findStage(stageId);
-	    var project = findProject(stageId, projectId);
-
-	    return React.createElement(
-	      "div",
-	      {
-	        className: "project-container",
-	        onClick: this.onClickContainer,
-	        key: projectId
-	      },
-	      React.createElement(
-	        "section",
-	        { className: "project-viewer" },
-	        React.createElement(ProjectSlideShow, {
-	          stage: stage,
-	          project: project,
-	          onClose: this.onClose }),
-	        React.createElement(ProjectDescription, {
-	          stage: stage,
-	          project: project }),
-	        React.createElement(
-	          "aside",
-	          {
-	            className: "project-close noselect",
-	            onClick: this.onClose },
-	          "×"
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = { ProjectViewer: ProjectViewer };
-
-/***/ },
+/* 213 */,
 /* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var find = __webpack_require__(215);
+	var findIndex = __webpack_require__(269);
 	var assets = __webpack_require__(264);
 
 	var STAGES = assets.stages;
+
+	function modulus(array, index) {
+	  return array[(index + array.length) % array.length];
+	}
 
 	function findProject(stageId, projectId) {
 	  var stage = findStage(stageId);
@@ -25061,10 +24836,32 @@
 	  }
 	}
 
+	function findSiblingProject(projects, projectId, inc) {
+	  var project = modulus(projects, findIndex(projects, function (p) {
+	    return p.projectId === projectId;
+	  }) + inc);
+	  if (project && project.projectId !== projectId) {
+	    return project;
+	  } else {
+	    return null;
+	  }
+	}
+
 	function findStage(stageId) {
 	  return find(STAGES, function (stage) {
 	    return stage.stageId == stageId;
 	  });
+	}
+
+	function findSiblingStage(stageId, inc) {
+	  var stage = modulus(STAGES, findIndex(STAGES, function (p) {
+	    return p.stageId === stageId;
+	  }) + inc);
+	  if (stage && stage.stageId !== stageId) {
+	    return stage;
+	  } else {
+	    return null;
+	  }
 	}
 
 	function throttle(type, name, obj) {
@@ -25082,7 +24879,9 @@
 
 	module.exports = {
 	  findStage: findStage,
+	  findSiblingStage: findSiblingStage,
 	  findProject: findProject,
+	  findSiblingProject: findSiblingProject,
 	  throttle: throttle
 	};
 
@@ -27218,6 +27017,256 @@
 
 	module.exports = createFindIndex;
 
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(6);
+	var ReactCSSTransitionGroup = __webpack_require__(159);
+
+	var _require = __webpack_require__(166);
+
+	var Link = _require.Link;
+
+	var _require2 = __webpack_require__(214);
+
+	var findStage = _require2.findStage;
+	var findProject = _require2.findProject;
+	var findSiblingProject = _require2.findSiblingProject;
+
+	var findIndex = __webpack_require__(269);
+
+	function toDangerousHtml(text) {
+	  return { __html: text };
+	}
+
+	var ProjectDescription = React.createClass({
+	  displayName: "ProjectDescription",
+	  render: function render() {
+	    var _props = this.props;
+	    var project = _props.project;
+	    var stage = _props.stage;
+	    var stageId = stage.stageId;
+	    var projects = stage.projects;
+	    var projectId = project.projectId;
+
+	    var prevProject = findSiblingProject(projects, projectId, -1);
+	    var nextProject = findSiblingProject(projects, projectId, +1);
+
+	    var title = project.title;
+	    var subtitle = project.subtitle;
+	    var date = project.date;
+	    var text = project.text;
+	    var subtext = project.subtext;
+	    var cursor = project.cursor;
+
+	    return React.createElement(
+	      "section",
+	      { className: "project-description" },
+	      React.createElement("h2", {
+	        className: "project-description-subtitle",
+	        dangerouslySetInnerHTML: toDangerousHtml(subtitle) }),
+	      React.createElement("h1", {
+	        className: "project-description-title",
+	        dangerouslySetInnerHTML: toDangerousHtml(title) }),
+	      React.createElement(
+	        "span",
+	        { className: "project-description-date" },
+	        date
+	      ),
+	      React.createElement("article", {
+	        className: "project-description-text",
+	        dangerouslySetInnerHTML: toDangerousHtml(text) }),
+	      subtext ? React.createElement("hr", null) : null,
+	      subtext ? React.createElement("article", {
+	        className: "project-description-text",
+	        dangerouslySetInnerHTML: toDangerousHtml(subtext) }) : null,
+	      React.createElement(
+	        "nav",
+	        { className: "project-navigation" },
+	        prevProject ? React.createElement(
+	          Link,
+	          { to: stageId + "/" + prevProject.projectId, className: "project-navigation-arrow" },
+	          "‹"
+	        ) : null,
+	        React.createElement("img", {
+	          className: "project-navigation-donut",
+	          src: "images/" + cursor.cursor + ".gif" }),
+	        nextProject ? React.createElement(
+	          Link,
+	          { to: stageId + "/" + nextProject.projectId, className: "project-navigation-arrow" },
+	          "›"
+	        ) : null
+	      )
+	    );
+	  }
+	});
+
+	var ProjectSlideShow = React.createClass({
+	  displayName: "ProjectSlideShow",
+	  getInitialState: function getInitialState() {
+	    return { currentImageIndex: 0 };
+	  },
+	  componentWillMount: function componentWillMount() {
+	    this.startCarousel();
+	    document.addEventListener("keydown", this.onKeyDown);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    clearInterval(this.interval);
+	    document.removeEventListener("keydown", this.onKeyDown);
+	  },
+	  startCarousel: function startCarousel() {
+	    this.stopCarousel();
+	    this.interval = setInterval(this.goNextImage, 6000);
+	  },
+	  stopCarousel: function stopCarousel() {
+	    clearInterval(this.interval);
+	  },
+	  onKeyDown: function onKeyDown(evt) {
+	    var keyCode = evt.keyCode;
+
+	    if (keyCode === 39) {
+	      this.startCarousel();
+	      this.goNextImage(+1);
+	    } else if (keyCode === 37) {
+	      this.startCarousel();
+	      this.goNextImage(-1);
+	    } else if (keyCode === 27) {
+	      this.props.onClose();
+	    }
+	  },
+	  onClickImage: function onClickImage() {
+	    this.stopCarousel();
+	    this.goNextImage(1);
+	  },
+	  goNextImage: function goNextImage(inc) {
+	    var images = this.props.project.images;
+	    var currentImageIndex = this.state.currentImageIndex;
+
+	    currentImageIndex = (currentImageIndex + (inc || 1) + images.length) % images.length;
+	    this.setState({ currentImageIndex: currentImageIndex });
+	  },
+	  goImage: function goImage(evt, image) {
+	    evt.preventDefault();
+	    this.stopCarousel();
+	    var currentImageIndex = findIndex(this.props.project.images, image);
+	    if (currentImageIndex >= 0) {
+	      this.setState({ currentImageIndex: currentImageIndex });
+	    }
+	  },
+	  render: function render() {
+	    var _this = this;
+
+	    var currentImageIndex = this.state.currentImageIndex;
+	    var _props2 = this.props;
+	    var stage = _props2.stage;
+	    var project = _props2.project;
+	    var images = project.images;
+
+	    var selectedImage = images[currentImageIndex];
+
+	    return React.createElement(
+	      "section",
+	      { className: "project-slide-show" },
+	      React.createElement(
+	        ReactCSSTransitionGroup,
+	        {
+	          className: "project-slide-show-wrapper",
+	          transitionName: "opacity",
+	          transitionEnterTimeout: 400,
+	          transitionLeaveTimeout: 400
+	        },
+	        React.createElement(ProjectImage, {
+	          key: currentImageIndex,
+	          imageSrc: stage.stageId + "/" + selectedImage.src,
+	          onClick: this.onClickImage })
+	      ),
+	      React.createElement(
+	        "nav",
+	        { className: "image-navigation noselect" },
+	        images.map(function (image, index) {
+	          return React.createElement(
+	            "a",
+	            {
+	              href: "#",
+	              key: index,
+	              onClick: function onClick(evt) {
+	                return _this.goImage(evt, image);
+	              },
+	              className: "image-navigation-dot " + (image === selectedImage ? "image-navigation-dot-selected" : "")
+	            },
+	            " "
+	          );
+	        })
+	      )
+	    );
+	  }
+	});
+
+	var ProjectImage = React.createClass({
+	  displayName: "ProjectImage",
+	  render: function render() {
+	    return React.createElement("img", {
+	      className: "project-image",
+	      src: this.props.imageSrc,
+	      onClick: this.props.onClick });
+	  }
+	});
+
+	var ProjectViewer = React.createClass({
+	  displayName: "ProjectViewer",
+	  onClose: function onClose() {
+	    var params = this.props.params;
+	    var stageId = params.stageId;
+
+	    this.props.history.push("/" + stageId);
+	  },
+	  onClickContainer: function onClickContainer(evt) {
+	    if (evt.target.className === "project-container") {
+	      this.onClose();
+	    }
+	  },
+	  render: function render() {
+	    var params = this.props.params;
+	    var stageId = params.stageId;
+	    var projectId = params.projectId;
+
+	    var stage = findStage(stageId);
+	    var project = findProject(stageId, projectId);
+
+	    return React.createElement(
+	      "div",
+	      {
+	        className: "project-container",
+	        onClick: this.onClickContainer,
+	        key: projectId
+	      },
+	      React.createElement(
+	        "section",
+	        { className: "project-viewer" },
+	        React.createElement(ProjectSlideShow, {
+	          stage: stage,
+	          project: project,
+	          onClose: this.onClose }),
+	        React.createElement(ProjectDescription, {
+	          stage: stage,
+	          project: project }),
+	        React.createElement(
+	          "aside",
+	          {
+	            className: "project-close noselect",
+	            onClick: this.onClose },
+	          "×"
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = { ProjectViewer: ProjectViewer };
 
 /***/ }
 /******/ ]);

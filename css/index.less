@@ -73,6 +73,14 @@ body {
   width: 100%;
 }
 
+main {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
 .site-header {
   position: absolute;
   top: 0;
@@ -117,11 +125,12 @@ body {
 }
 
 .stage {
-  position: relative;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  margin: 0 auto;
 
   .project-tooltip {
     position: absolute;
@@ -158,7 +167,6 @@ body {
 }
 
 .stage-image {
-  transition: width 100ms, height 100ms;
 }
 
 .cursor {
@@ -168,7 +176,7 @@ body {
 }
 
 .project-container {
-  position: fixed;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -363,4 +371,21 @@ body {
   max-height: 0;
   transition: max-height 400ms ease-out;
   overflow: hidden;
+}
+
+.translate-enter {
+}
+
+.translate-enter.translate-enter-active {
+}
+
+.translate-leave {
+  // transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.translate-leave.translate-leave-active {
+  // transform: translate3d(0, -120%, 0);
+  opacity: 0;
+  transition: opacity 1s ease-out, transform 1s ease-in !important;
 }
