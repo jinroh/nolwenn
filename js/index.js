@@ -96,7 +96,7 @@ const StageViewer = React.createClass({
     };
   },
 
-  componentDidMount() {
+  componentWillMount() {
     window.addEventListener("throttledResize", this.setWindowSize);
   },
 
@@ -143,7 +143,7 @@ const StageViewer = React.createClass({
     const { stageId } = stage;
 
     return stage.projects.map((project) => {
-      const { projectId, cursor } = project;
+      const { projectId, title, cursor } = project;
 
       const cursorStyle = {
         left:   (imageWidth  * cursor.x / 100) + "px",
@@ -154,15 +154,18 @@ const StageViewer = React.createClass({
       };
 
       return (
-        <Link
-          key={projectId}
-          to={`/${stageId}/${projectId}`}
-          className={"cursor cursor-" + cursor.cursor}
-          style={cursorStyle}
-          onClick={() => this.onMouseLeave(project)}
-          onMouseEnter={() => this.onMouseEnter(project)}
-          onMouseLeave={() => this.onMouseLeave(project)}>
-        </Link>
+        <li>
+          <Link
+            key={projectId}
+            to={`/${stageId}/${projectId}`}
+            className="cursor"
+            style={cursorStyle}
+            onClick={() => this.onMouseLeave(project)}
+            onMouseEnter={() => this.onMouseEnter(project)}
+            onMouseLeave={() => this.onMouseLeave(project)}>
+            {`Projet ${title}`}
+          </Link>
+        </li>
       );
     });
   },
@@ -207,12 +210,15 @@ const StageViewer = React.createClass({
 
         <img
           ref={(ref) => this.image = ref}
+          alt={"Tableau " + stage.name}
           className="stage-image"
           src={`${stage.stageId}/background.jpg`}
           style={stageImageStyle}
           onLoad={this.onImageLoaded} />
 
-        {cursorSpans}
+        <ul>
+          {cursorSpans}
+        </ul>
 
         <ReactCSSTransitionGroup
           component="div"
@@ -269,8 +275,8 @@ const App = React.createClass({
         component="main"
         style={mainStyle}
         transitionName="translate"
-        transitionEnterTimeout={1000}
-        transitionLeaveTimeout={1000}
+        transitionEnterTimeout={750}
+        transitionLeaveTimeout={750}
       >
         {React.cloneElement(children, { key: stageId })}
       </ReactCSSTransitionGroup>
@@ -290,5 +296,8 @@ const routes = (
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-  ReactDOM.render(<Router history={history}>{routes}</Router>, document.getElementById("root"));
+  ReactDOM.render(
+    <Router history={history}>{routes}</Router>,
+    document.getElementById("react-root")
+  );
 });

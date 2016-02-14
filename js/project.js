@@ -166,14 +166,9 @@ var ProjectImage = React.createClass({
 });
 
 var ProjectViewer = React.createClass({
-  onClose() {
-    const { params } = this.props;
-    const { stageId } = params;
-    this.props.history.push(`/${stageId}`);
-  },
   onClickContainer(evt) {
     if (evt.target.className === "project-container") {
-      this.onClose();
+      this.props.history.push(`/${this.props.params.stageId}`);
     }
   },
   render() {
@@ -196,9 +191,9 @@ var ProjectViewer = React.createClass({
           <ProjectDescription
             stage={stage}
             project={project} />
-          <aside
+          <Link
             className="project-close noselect"
-            onClick={this.onClose}>×</aside>
+            to={`/${stageId}`}>×</Link>
         </section>
       </div>
     );

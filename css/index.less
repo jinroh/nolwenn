@@ -35,8 +35,9 @@ i {
 
 *, *::before, *::after {
   box-shadow: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
 }
 
 ::selection {
@@ -62,6 +63,7 @@ a {
 
 ul, menu {
   list-style: none;
+  margin: 0;
 }
 
 strong {
@@ -171,8 +173,13 @@ main {
 
 .cursor {
   position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
-  cursor: pointer;
+  background-clip: content-box;
+  color: transparent;
+  text-indent: -10000px;
+  border: .2em solid transparent;
 }
 
 .project-container {
@@ -184,7 +191,16 @@ main {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.5);
+
+  &:before {
+    position: fixed;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
 }
 
 .project-viewer {
@@ -222,8 +238,8 @@ main {
     .image-navigation-dot {
       border-radius: 50%;
       border: 1px solid #EDBFBE;
-      width: 10px;
-      height: 10px;
+      width: 5px;
+      height: 5px;
       margin: 4px;
       padding: 2px;
       background-clip: content-box;
@@ -330,7 +346,7 @@ main {
   right: 0;
   font-size: 10em;
   line-height: 0.5em;
-  cursor: pointer;
+  text-decoration: none;
 }
 
 .opacity-enter {
@@ -374,18 +390,21 @@ main {
 }
 
 .translate-enter {
+  transform: translate3d(0, 105%, 0);
 }
 
 .translate-enter.translate-enter-active {
+  transform: translate3d(0, 0, 0);
+  transition: opacity 700ms ease-out, transform 700ms ease-in-out !important;
 }
 
 .translate-leave {
-  // transform: translate3d(0, 0, 0);
-  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  // opacity: 1;
 }
 
 .translate-leave.translate-leave-active {
-  // transform: translate3d(0, -120%, 0);
-  opacity: 0;
-  transition: opacity 1s ease-out, transform 1s ease-in !important;
+  transform: translate3d(0, -105%, 0);
+  // opacity: 0;
+  transition: opacity 700ms ease-out, transform 700ms ease-in-out !important;
 }

@@ -1,5 +1,6 @@
 module.exports = {
   stageId: "chrysalide",
+  name: "Chrysalide",
   backgroundColor: "#8A6E6B",
   headerAlign: "right",
   headerColor: "#B49A91",
