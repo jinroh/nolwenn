@@ -11,11 +11,11 @@ function toDangerousHtml(text) {
 var ProjectDescription = React.createClass({
   render() {
     const { project, stage } = this.props;
-    const { stageId, projects } = stage;
+    const { stageId } = stage;
     const { projectId } = project;
 
-    const prevProject = findSiblingProject(projects, projectId, -1);
-    const nextProject = findSiblingProject(projects, projectId, +1);
+    const { stageId: prevProjectStageId, project: prevProject } = findSiblingProject(stageId, projectId, -1);
+    const { stageId: nextProjectStageId, project: nextProject } = findSiblingProject(stageId, projectId, +1);
 
     const {
       title,
@@ -48,13 +48,13 @@ var ProjectDescription = React.createClass({
           : null }
         <nav className="project-navigation">
           {prevProject
-            ? <Link to={`${stageId}/${prevProject.projectId}`} className="project-navigation-arrow">‹</Link>
+            ? <Link to={`${prevProjectStageId}/${prevProject.projectId}`} className="project-navigation-arrow">‹</Link>
             : null}
           <img
             className="project-navigation-donut"
             src={`images/${cursor.cursor}.gif`} />
           {nextProject
-            ? <Link to={`${stageId}/${nextProject.projectId}`} className="project-navigation-arrow">›</Link>
+            ? <Link to={`${nextProjectStageId}/${nextProject.projectId}`} className="project-navigation-arrow">›</Link>
             : null}
         </nav>
       </section>
@@ -79,7 +79,7 @@ var ProjectSlideShow = React.createClass({
 
   startCarousel() {
     this.stopCarousel();
-    this.interval = setInterval(this.goNextImage, 6000);
+    this.interval = setInterval(this.goNextImage, 3000);
   },
 
   stopCarousel() {
@@ -183,6 +183,7 @@ var ProjectViewer = React.createClass({
         onClick={this.onClickContainer}
         key={projectId}
       >
+        <div className="project-background" />
         <section className="project-viewer">
           <ProjectSlideShow
             stage={stage}

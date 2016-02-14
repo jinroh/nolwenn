@@ -23,7 +23,7 @@ module.exports = {
         loader: "style?singleton!css!autoprefixer!less"
       },
       {
-        test: /\.(otf|ttf)$/,
+        test: /\.(otf|ttf|png)$/,
         loader: "url-loader?limit=4096"
       },
     ]

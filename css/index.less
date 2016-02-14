@@ -85,8 +85,8 @@ main {
 
 .site-header {
   position: absolute;
-  top: 0;
-  z-index: 10;
+  top: 2%;
+  z-index: 0;
   padding: .5em 1em 0 1em;
   color: #D6C3BC;
 
@@ -114,7 +114,7 @@ main {
 
 .site-footer {
   position: absolute;
-  bottom: 1%;
+  bottom: 4%;
   right: 1%;
   color: #655C58;
   font-family: "Open Sans", sans-serif;
@@ -132,6 +132,7 @@ main {
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 0;
 }
 
 .stage {
@@ -176,7 +177,18 @@ main {
   }
 }
 
-.stage-image {
+.stage-nav-arrow {
+  display: block;
+  position: fixed;
+  right: 2%;
+  bottom: 7%;
+  height: 7%;
+  width: 20px;
+
+  img {
+    height: 100%;
+    margin: auto;
+  }
 }
 
 .cursor {
@@ -199,16 +211,15 @@ main {
   left: 0;
   right: 0;
   bottom: 0;
+}
 
-  &:before {
-    position: fixed;
-    content: "";
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.5);
-  }
+.project-white-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .project-viewer {
@@ -262,7 +273,7 @@ main {
 
   .project-image {
     position: absolute;
-    bottom: -10%;
+    bottom: 0;
     left: 0;
     width: 100%;
   }

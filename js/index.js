@@ -131,8 +131,8 @@ const StageViewer = React.createClass({
 
   getImageSize() {
     const { imgRatio, height } = this.state;
-    const imageWidth = height * imgRatio;
-    const imageHeight = height;
+    const imageWidth  = (height - 6 / 100 * height) * imgRatio;
+    const imageHeight = (height - 6 / 100 * height);
     return {
       imageWidth,
       imageHeight,
@@ -194,14 +194,15 @@ const StageViewer = React.createClass({
     }
 
     const stageStyle = {
-      // opacity: imgLoaded ? 1 : 0,
-      // transition: "opacity 3s",
+      opacity: imgLoaded ? 1 : 0,
+      transition: "opacity 1.5s",
       width: imageWidth,
     };
 
     const stageImageStyle = {
-      width: imageWidth,
+      width:  imageWidth,
       height: imageHeight,
+      paddingTop: "2%"
     };
 
     return (
@@ -223,17 +224,21 @@ const StageViewer = React.createClass({
         <ReactCSSTransitionGroup
           component="div"
           transitionName="unroll"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
         >
           {tooltip}
         </ReactCSSTransitionGroup>
 
+        {children
+          ? <div className="project-white-overlay" />
+          : null}
+
         <ReactCSSTransitionGroup
           component="div"
           transitionName="opacity"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
         >
           {children
             ? React.cloneElement(children, { key: projectId })
@@ -263,23 +268,39 @@ const App = React.createClass({
   render() {
     const { children, params } = this.props;
     const { stageId } = params;
-    const stage = findStage(stageId);
+    const nextStage = findSiblingStage(stageId, +1);
 
-    const mainStyle = {
-      backgroundColor: stage.backgroundColor,
-      backgroundImage: `url(${stageId}/background_blur.jpg)`,
-    };
+    const backgroundElement = (
+      <img
+        key={stageId}
+        className="stage-background"
+        src={`${stageId}/background_blur.jpg`} />
+    );
 
     return (
-      <ReactCSSTransitionGroup
-        component="main"
-        style={mainStyle}
-        transitionName="translate"
-        transitionEnterTimeout={750}
-        transitionLeaveTimeout={750}
-      >
-        {React.cloneElement(children, { key: stageId })}
-      </ReactCSSTransitionGroup>
+      <main style={{ backgroundColor: "#333" }}>
+        <ReactCSSTransitionGroup
+          component="div"
+          transitionName="opacity"
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
+        >
+          {backgroundElement}
+        </ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup
+          component="main"
+          transitionName="translate"
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
+        >
+          {React.cloneElement(children, { key: stageId })}
+        </ReactCSSTransitionGroup>
+        <Link
+          to={`/${nextStage.stageId}`}
+          className="stage-nav-arrow">
+          <img src="images/top_arrow.png" />
+        </Link>
+      </main>
     );
   }
 });

@@ -15,13 +15,23 @@ function findProject(stageId, projectId) {
   }
 }
 
-function findSiblingProject(projects, projectId, inc) {
-  const project = modulus(projects, findIndex(projects, (p) => p.projectId === projectId) + inc);
-  if (project && project.projectId !== projectId) {
-    return project;
-  } else {
-    return null;
+function findSiblingProject(stageId, projectId, inc) {
+  const stage = findStage(stageId);
+  const projects = stage.projects;
+  const projectIndex = findIndex(projects, (p) => p.projectId === projectId) + inc;
+  if (projectIndex >= 0 && projectIndex < projects.length) {
+    return { stageId, project: projects[projectIndex] };
   }
+
+  const newStage = findSiblingStage(stageId, inc);
+  let project;
+  if (inc < 0) {
+    project = newStage.projects[newStage.projects.length - 1];
+  } else {
+    project = newStage.projects[0];
+  }
+
+  return { stageId: newStage.stageId, project };
 }
 
 function findStage(stageId) {
