@@ -1,5 +1,6 @@
 module.exports = {
   stageId: "apellis",
+  name: "Apellis",
   backgroundColor: "#8A6E6B",
   headerAlign: "right",
   headerColor: "#E3C4BD",

@@ -1,5 +1,6 @@
 module.exports = {
   stageId: "convenances",
+  name: "Convenances",
   backgroundColor: "#8A6E6B",
   headerColor: "#B49A91",
   projects: [
