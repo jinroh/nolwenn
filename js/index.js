@@ -42,23 +42,10 @@ const ProjectTooltip = React.createClass({
 });
 
 const SiteHeader = React.createClass({
-  shouldComponentUpdate(nextProps) {
-    return this.props.stage !== nextProps.stage;
+  shouldComponentUpdate() {
+    return false;
   },
   render() {
-    // const { stage } = this.props;
-    // const siteHeaderStyle = {
-    //   color: stage.headerColor || "#D6C3BC",
-    // };
-
-    // if (stage.headerAlign == "right") {
-    //   siteHeaderStyle.right = 0;
-    //   siteHeaderStyle.textAlign = "right";
-    // } else {
-    //   siteHeaderStyle.left = 0;
-    //   siteHeaderStyle.textAlign = "left";
-    // }
-
     return (
       <header className="site-header">
         <h1>Nolwenn  Le  Scao</h1>
@@ -293,6 +280,7 @@ const App = React.createClass({
         >
           {React.cloneElement(children, { key: stageId })}
         </ReactCSSTransitionGroup>
+
         <Link
           to={`/${nextStage.stageId}`}
           className="stage-nav-arrow">
