@@ -271,10 +271,9 @@ const App = React.createClass({
     const nextStage = findSiblingStage(stageId, +1);
 
     const backgroundElement = (
-      <img
-        key={stageId}
-        className="stage-background"
-        src={`${stageId}/background_blur.jpg`} />
+      <div className="stage-background" key={stageId}>
+        <img src={`${stageId}/background_blur.jpg`} />
+      </div>
     );
 
     return (
