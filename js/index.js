@@ -41,30 +41,27 @@ const ProjectTooltip = React.createClass({
   }
 });
 
-const StageHeader = React.createClass({
+const SiteHeader = React.createClass({
   shouldComponentUpdate(nextProps) {
     return this.props.stage !== nextProps.stage;
   },
   render() {
-    const { stage } = this.props;
-    const siteHeaderStyle = {
-      color: stage.headerColor || "#D6C3BC",
-    };
+    // const { stage } = this.props;
+    // const siteHeaderStyle = {
+    //   color: stage.headerColor || "#D6C3BC",
+    // };
 
-    if (stage.headerAlign == "right") {
-      siteHeaderStyle.right = 0;
-      siteHeaderStyle.textAlign = "right";
-    } else {
-      siteHeaderStyle.left = 0;
-      siteHeaderStyle.textAlign = "left";
-    }
+    // if (stage.headerAlign == "right") {
+    //   siteHeaderStyle.right = 0;
+    //   siteHeaderStyle.textAlign = "right";
+    // } else {
+    //   siteHeaderStyle.left = 0;
+    //   siteHeaderStyle.textAlign = "left";
+    // }
 
     return (
-      <header
-        className="site-header"
-        style={siteHeaderStyle}
-      >
-        <h1>Nolwenn Le Scao</h1>
+      <header className="site-header">
+        <h1>Nolwenn  Le  Scao</h1>
         <p>
           <Link to="/about">À propos</Link> | <Link to="/contact">Contact</Link>
         </p>
@@ -131,8 +128,8 @@ const StageViewer = React.createClass({
 
   getImageSize() {
     const { imgRatio, height } = this.state;
-    const imageWidth  = (height - 6 / 100 * height) * imgRatio;
-    const imageHeight = (height - 6 / 100 * height);
+    const imageWidth  = (height - 15 / 100 * height) * imgRatio;
+    const imageHeight = (height - 15 / 100 * height);
     return {
       imageWidth,
       imageHeight,
@@ -207,8 +204,6 @@ const StageViewer = React.createClass({
 
     return (
       <section className="stage" style={stageStyle}>
-        <StageHeader stage={stage} />
-
         <img
           ref={(ref) => this.image = ref}
           alt={"Tableau " + stage.name}
@@ -277,7 +272,7 @@ const App = React.createClass({
     );
 
     return (
-      <main style={{ backgroundColor: "#333" }}>
+      <main>
         <ReactCSSTransitionGroup
           component="div"
           transitionName="opacity"
@@ -286,8 +281,12 @@ const App = React.createClass({
         >
           {backgroundElement}
         </ReactCSSTransitionGroup>
+
+        <SiteHeader />
+
         <ReactCSSTransitionGroup
-          component="main"
+          component="div"
+          className="stages-container"
           transitionName="translate"
           transitionEnterTimeout={1000}
           transitionLeaveTimeout={1000}
