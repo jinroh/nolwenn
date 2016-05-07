@@ -181,13 +181,21 @@ var ProjectViewer = React.createClass({
             project={project} />
           <nav className="project-navigation">
             {prevProject
-              ? <div className="project-navigation-arrow"><Link to={`${prevProjectStageId}/${prevProject.projectId}`}>Projet<br/>Précédent</Link></div>
+              ? <Link
+                  className="project-navigation-arrow project-navigation-arrow-left"
+                  to={`${prevProjectStageId}/${prevProject.projectId}`}>
+                    <img src="images/prev_project.png"/>
+                </Link>
               : null}
             <img
               className="project-navigation-donut"
               src={`images/${cursor.cursor}.gif`} />
             {nextProject
-              ? <div className="project-navigation-arrow project-navigation-arrow-right"><Link to={`${nextProjectStageId}/${nextProject.projectId}`}>Projet<br/>Suivant</Link></div>
+              ? <Link
+                  className="project-navigation-arrow project-navigation-arrow-right"
+                  to={`${nextProjectStageId}/${nextProject.projectId}`}>
+                    <img src="images/next_project.png"/>
+                </Link>
               : null}
           </nav>
           <Link

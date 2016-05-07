@@ -21,7 +21,7 @@ module.exports = {
         <p>Des feuillages luxuriants s’articulent autour de personnages issus de céramiques et de tapisseries présentes au Musée du louvre.</p>
       `,
       subtext: `
-        <p>Diponible à <a href="http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html">la boutique du Musée du Louvre</a></p>`
+        <p>Diponible à la boutique du <a href="http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html">Musée du Louvre</a></p>`
     },
     {
       projectId: "livret",
