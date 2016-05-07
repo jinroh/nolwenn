@@ -5,7 +5,7 @@ module.exports = {
   headerColor: "#B49A91",
   projects: [
     {
-      projectId: "motifs",
+      projectId: "lingedetable",
       cursor: { x: 40, y: 73, cursor: "09" },
       images: [
         { src: "projet1/01.jpg", alt: "" },
@@ -13,15 +13,33 @@ module.exports = {
         { src: "projet1/03.jpg", alt: "" },
         { src: "projet1/04.jpg", alt: "" },
       ],
-      title: "Motifs",
-      subtitle: "Collection Automne-Hiver",
-      date: "04 • 2012",
+      title: "Convenances",
+      subtitle: "Linge de table",
+      date: "02 • 2014",
       text: `
-        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>
-        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>
+        <p>Ce linge de table s’inspire du savoir- vivre à la française, il invite à revivre l’élégance d’un moment XVIIIe siècle.</p>
+        <p>Des feuillages luxuriants s’articulent autour de personnages issus de céramiques et de tapisseries présentes au Musée du louvre.</p>
       `,
       subtext: `
-        <p>Disponible à la <a href="">Étoffes granitée</a></p>`
+        <p>Diponible à <a href="http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html">la boutique du Musée du Louvre</a></p>`
+    },
+    {
+      projectId: "livret",
+      cursor: { x: 80, y: 65, cursor: "15" },
+      images: [
+        { src: "projet2/01.jpg", alt: "" },
+        { src: "projet2/02.jpg", alt: "" },
+        { src: "projet2/03.jpg", alt: "" },
+        { src: "projet2/04.jpg", alt: "" },
+        { src: "projet2/05.jpg", alt: "" },
+        { src: "projet2/06.jpg", alt: "" },
+      ],
+      title: "Convenances",
+      subtitle: "Livret",
+      date: "02 • 2014",
+      text: `
+        <p>Livret de présentation du projet <i>Convenances</i> pour la Réunion des Musées Nationaux.</p>
+      `,
     },
   ]
 };

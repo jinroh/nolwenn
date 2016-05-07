@@ -48,7 +48,7 @@ const SiteHeader = React.createClass({
   render() {
     return (
       <header className="site-header">
-        <h1>Nolwenn  Le  Scao</h1>
+        <h1>Nolwenn  Le Scao</h1>
         <p>
           <Link to="/about">À propos</Link> | <Link to="/contact">Contact</Link>
         </p>
@@ -63,7 +63,7 @@ const StageFooter = React.createClass({
   },
   render() {
     return (
-      <footer className="site-footer">
+      <footer className="stage-footer">
         <a href="/">Photographies Inès Leroy-Galan</a>
       </footer>
     );
@@ -186,7 +186,7 @@ const StageViewer = React.createClass({
     const stageImageStyle = {
       width:  imageWidth,
       height: imageHeight,
-      paddingTop: "2%"
+      paddingTop: "1.3%"
     };
 
     return (
@@ -212,6 +212,8 @@ const StageViewer = React.createClass({
           {tooltip}
         </ReactCSSTransitionGroup>
 
+        <StageFooter />
+
         {children
           ? <div className="project-white-overlay" />
           : null}
@@ -226,8 +228,6 @@ const StageViewer = React.createClass({
             ? React.cloneElement(children, { key: projectId })
             : null}
         </ReactCSSTransitionGroup>
-
-        <StageFooter />
       </section>
     );
   }

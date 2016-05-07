@@ -80,8 +80,7 @@ module.exports = {
       subtitle: "Dessins",
       date: "06 • 2014",
       text: `
-        <p>Ces visages à l’esthétique convenue incarnent le règne de l’image. Ce dernier tire sa force du maintient perpétuel de l’illusion.</p>
-        <p>Les êtres à la mode sont l’accomplissement d’un monde aux images sacrées, ils s’effacent dans le mirage de l’autoprojection.</p>
+        <p>Ces visages à l’esthétique convenue incarnent le règne de l’image.</p>
       `,
     },
   ]

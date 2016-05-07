@@ -26,7 +26,7 @@ body {
   font-family: "Open Sans", sans-serif;
   overflow: hidden;
   font-size: .95em;
-  color: #ED7A77;
+  color: rgb(244, 43, 65);
 }
 
 i {
@@ -82,20 +82,22 @@ main {
   left: 0;
   right: 0;
   z-index: 0;
-  border: .3em solid rgb(244, 43, 65);
+  // border: .3em solid rgb(244, 43, 65);
+  // border-top: none;
 }
 
 .site-header {
   position: absolute;
   top: 0;
   width: 100%;
-  height: 10%;
+  height: 8%;
   text-align: center;
   z-index: 0;
   padding: 1.7em 1em 0 1em;
   color: #D6C3BC;
   z-index: 10;
   color: rgb(244, 43, 65);
+  background-color: #E8E8E8;
 
   h1 {
     font-family: "prumo-display-extralight", serif;
@@ -103,7 +105,7 @@ main {
     color: inherit;
     text-transform: uppercase;
     letter-spacing: .2em;
-    padding-bottom: 0.1em;
+    padding-bottom: 4px;
   }
 
   p {
@@ -123,14 +125,17 @@ main {
 }
 
 .stages-container {
+  border: .2em solid rgb(244, 43, 65);
+  border-top: .3em solid rgb(244, 43, 65);
+  box-sizing: border-box;
   position: absolute;
   // top: 0;
   // bottom: 0;
   // left: 0;
   // right: 0;
-  top: 10%;
+  top: 11.5%;
   width: 100%;
-  height: 90%;
+  height: 88.5%;
   background-size: 100% auto;
   background-repeat: no-repeat;
   z-index: 0;
@@ -169,6 +174,7 @@ main {
     letter-spacing: .05em;
 
     .project-tooltip-subtitle {
+      font-family: "Open Sans", sans-serif;
       font-style: italic;
       font-weight: 100;
     }
@@ -240,7 +246,7 @@ main {
 
 .project-viewer {
   position: relative;
-  border: 1px solid #EDD7D6;
+  // border: 1px solid #EDD7D6;
   width: 90%;
   height: 80%;
   overflow: hidden;
@@ -248,7 +254,7 @@ main {
 
 .project-slide-show {
   position: absolute;
-  height: 100%;
+  height: 101%;
   width: 100%;
   overflow: hidden;
   background-color: #EFE7E8;
@@ -257,8 +263,9 @@ main {
     position: absolute;
     bottom: 1%;
     display: flex;
-    width: 100%;
+    width: 66%;
     justify-content: center;
+    margin-left: 4%;
 
     a {
       text-decoration: none;
@@ -272,14 +279,14 @@ main {
 
     .image-navigation-dot {
       border-radius: 50%;
-      border: 1px solid #EDBFBE;
+      border: 1px solid #F7AFB6;
       width: 5px;
       height: 5px;
       margin: 4px;
       padding: 2px;
       background-clip: content-box;
       &.image-navigation-dot-selected {
-        background-color: #ED7A77;
+        background-color: rgb(244, 43, 65);
       }
     }
   }
@@ -297,20 +304,21 @@ main {
 
 .project-description {
   position: absolute;
-  right: 80px;
-  // bottom: 13%;
-  bottom: 80px;
+  top: 119px;
+  right: 50px;
   width: 180px;
 
   .project-description-title {
     text-transform: uppercase;
-    margin: 0 0 1em 0;
     font-size: 1em;
+    margin: 0 0 0.1em 0;
+    letter-spacing: 0.5px;
   }
 
   .project-description-subtitle {
-    margin: 1em 0 0 0;
-    font-size: 0.85em;
+    font-style: italic;
+    margin: 0 0 0.7em 0;
+    font-size: 0.8em;
   }
 
   .project-description-title,
@@ -320,8 +328,8 @@ main {
   }
 
   .project-description-date {
-    border-top: #EDBFBE 1px solid;
-    border-bottom: #EDBFBE 1px solid;
+    border-top: #F7AFB6 1px solid;
+    border-bottom: #F7AFB6 1px solid;
     line-height: 1.5em;
     font-size: 0.7em;
   }
@@ -340,7 +348,7 @@ main {
     display: block;
     height: 1px;
     border: 0;
-    border-top: 1px solid #EDBFBE;
+    border-top: 1px solid #F7AFB6;
     margin: 1em 0;
     padding: 0;
   }
@@ -348,6 +356,9 @@ main {
 
 
 .project-navigation {
+  position: absolute;
+  bottom: 1%;
+  right: 10%;
   display: flex;
   margin-top: 3em;
   text-align: center;
@@ -355,25 +366,16 @@ main {
   justify-content: center;
 
   .project-navigation-donut {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
 
   .project-navigation-arrow {
-    color: #EFACA8;
-    font-family: "prumo-display-extralight";
-    font-size: 10em;
-    line-height: .5em;
-    text-decoration: none;
-    margin-top: -0.2em; // center arrows vertically
-    &:first-child {
-      margin-right: -0.07em;
-    }
   }
 }
 
 .project-close {
-  color: #EFACA8;
+  color: #F7AFB6;
   font-family: "prumo-display-extralight";
   font-weight: 100;
   position: absolute;
@@ -384,17 +386,17 @@ main {
   text-decoration: none;
 }
 
-.site-footer {
+.stage-footer {
   position: absolute;
-  bottom: 4%;
+  bottom: 1%;
   right: 1%;
   color: #655C58;
   font-family: "Open Sans", sans-serif;
   text-transform: uppercase;
-  font-size: .5em;
   letter-spacing: 0.04em;
   a {
     text-decoration: none;
+    font-size: 6px;
   }
 }
 

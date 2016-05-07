@@ -10,12 +10,7 @@ function toDangerousHtml(text) {
 
 var ProjectDescription = React.createClass({
   render() {
-    const { project, stage } = this.props;
-    const { stageId } = stage;
-    const { projectId } = project;
-
-    const { stageId: prevProjectStageId, project: prevProject } = findSiblingProject(stageId, projectId, -1);
-    const { stageId: nextProjectStageId, project: nextProject } = findSiblingProject(stageId, projectId, +1);
+    const { project } = this.props;
 
     const {
       title,
@@ -28,12 +23,12 @@ var ProjectDescription = React.createClass({
 
     return (
       <section className="project-description">
-        <h2
-          className="project-description-subtitle"
-          dangerouslySetInnerHTML={toDangerousHtml(subtitle)}></h2>
         <h1
           className="project-description-title"
           dangerouslySetInnerHTML={toDangerousHtml(title)}></h1>
+        <h2
+          className="project-description-subtitle"
+          dangerouslySetInnerHTML={toDangerousHtml(subtitle)}></h2>
         <span className="project-description-date">{date}</span>
         <article
           className="project-description-text"
@@ -46,17 +41,6 @@ var ProjectDescription = React.createClass({
               dangerouslySetInnerHTML={toDangerousHtml(subtext)}>
             </article>
           : null }
-        <nav className="project-navigation">
-          {prevProject
-            ? <Link to={`${prevProjectStageId}/${prevProject.projectId}`} className="project-navigation-arrow">‹</Link>
-            : null}
-          <img
-            className="project-navigation-donut"
-            src={`images/${cursor.cursor}.gif`} />
-          {nextProject
-            ? <Link to={`${nextProjectStageId}/${nextProject.projectId}`} className="project-navigation-arrow">›</Link>
-            : null}
-        </nav>
       </section>
     );
   }
@@ -177,6 +161,10 @@ var ProjectViewer = React.createClass({
     const stage = findStage(stageId);
     const project = findProject(stageId, projectId);
 
+    const { cursor } = project;
+    const { stageId: prevProjectStageId, project: prevProject } = findSiblingProject(stageId, projectId, -1);
+    const { stageId: nextProjectStageId, project: nextProject } = findSiblingProject(stageId, projectId, +1);
+
     return (
       <div
         className="project-container"
@@ -190,8 +178,18 @@ var ProjectViewer = React.createClass({
             project={project}
             onClose={this.onClose} />
           <ProjectDescription
-            stage={stage}
             project={project} />
+          <nav className="project-navigation">
+            {prevProject
+              ? <div className="project-navigation-arrow"><Link to={`${prevProjectStageId}/${prevProject.projectId}`}>Projet<br/>Précédent</Link></div>
+              : null}
+            <img
+              className="project-navigation-donut"
+              src={`images/${cursor.cursor}.gif`} />
+            {nextProject
+              ? <div className="project-navigation-arrow project-navigation-arrow-right"><Link to={`${nextProjectStageId}/${nextProject.projectId}`}>Projet<br/>Suivant</Link></div>
+              : null}
+          </nav>
           <Link
             className="project-close noselect"
             to={`/${stageId}`}>×</Link>
