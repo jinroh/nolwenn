@@ -114,9 +114,16 @@ const StageViewer = React.createClass({
   },
 
   getImageSize() {
-    const { imgRatio, height } = this.state;
-    const imageWidth  = (height - 15 / 100 * height) * imgRatio;
-    const imageHeight = (height - 15 / 100 * height);
+    let { imgRatio, height } = this.state;
+
+    const siteHeader = document.querySelector(".site-header");
+    if (siteHeader) {
+      height -= siteHeader.getBoundingClientRect().height;
+    }
+    
+    const imageWidth  = (height - 3 / 100 * height) * imgRatio;
+    const imageHeight = (height - 3 / 100 * height);
+
     return {
       imageWidth,
       imageHeight,
