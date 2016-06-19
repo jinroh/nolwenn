@@ -189,15 +189,23 @@ const StageViewer = React.createClass({
       paddingTop: "1.3%"
     };
 
-    return (
-      <section className="stage" style={stageStyle}>
-        <img
+    const mainImageElement = stage.isVideo
+      ? <video
+          src={`${stage.stageId}/video.mp4"`}
+          className="stage-image"
+          style={stageImageStyle} />
+      : <img
           ref={(ref) => this.image = ref}
           alt={"Tableau " + stage.name}
           className="stage-image"
           src={`${stage.stageId}/background.jpg`}
           style={stageImageStyle}
           onLoad={this.onImageLoaded} />
+
+
+    return (
+      <section className="stage" style={stageStyle}>
+        {mainImageElement}
 
         <ul>
           {cursorSpans}
