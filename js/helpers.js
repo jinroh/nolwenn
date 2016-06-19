@@ -18,20 +18,15 @@ function findProject(stageId, projectId) {
 function findSiblingProject(stageId, projectId, inc) {
   const stage = findStage(stageId);
   const projects = stage.projects;
-  const projectIndex = findIndex(projects, (p) => p.projectId === projectId) + inc;
-  if (projectIndex >= 0 && projectIndex < projects.length) {
-    return { stageId, project: projects[projectIndex] };
+  let projectIndex = findIndex(projects, (p) => p.projectId === projectId) + inc;
+  if (projectIndex < 0) {
+    projectIndex = projects.length - 1;
+  }
+  else if (projectIndex >= projects.length) {
+    projectIndex = 0;
   }
 
-  const newStage = findSiblingStage(stageId, inc);
-  let project;
-  if (inc < 0) {
-    project = newStage.projects[newStage.projects.length - 1];
-  } else {
-    project = newStage.projects[0];
-  }
-
-  return { stageId: newStage.stageId, project };
+  return { stageId, project: projects[projectIndex] };
 }
 
 function findStage(stageId) {
