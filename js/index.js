@@ -259,7 +259,7 @@ const App = React.createClass({
     );
 
     return (
-      <main>
+      <main style={{ backgroundColor: "grey" }}>
         <ReactCSSTransitionGroup
           component="div"
           transitionName="opacity"

@@ -114,9 +114,9 @@ var ProjectSlideShow = React.createClass({
       <section className="project-slide-show">
         <ReactCSSTransitionGroup
           className="project-slide-show-wrapper"
-          transitionName="opacity"
-          transitionEnterTimeout={400}
-          transitionLeaveTimeout={400}
+          transitionName="opacity-project"
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
         >
           <ProjectImage
             key={currentImageIndex}
