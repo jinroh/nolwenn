@@ -17,11 +17,11 @@ module.exports = {
       subtitle: "Linge de table",
       date: "02 • 2014",
       text: `
-        <p>Ce linge de table s’inspire du savoir- vivre à la française, il invite à revivre l’élégance d’un moment XVIIIe siècle.</p>
-        <p>Des feuillages luxuriants s’articulent autour de personnages issus de céramiques et de tapisseries présentes au Musée du louvre.</p>
+        <p>Ce linge de table s’inspire</br> du savoir-vivre à la française,</br> il invite à revivre l’élégance</br> d’un moment XVIIIe siècle.</p>
+        <p>Des feuillages luxuriants</br> s’articulent autour de person-</br>nages issus de céramiques</br> et de tapisseries présentes</br> au Musée du Louvre.</p>
       `,
       subtext: `
-        <p>Diponible à la boutique du <a href="http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html">Musée du Louvre</a></p>`
+        <p>Diponible à la boutique</br> du <a href="http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html">Musée du Louvre.</a></p>`
     },
     {
       projectId: "livret",
@@ -38,7 +38,7 @@ module.exports = {
       subtitle: "Livret",
       date: "02 • 2014",
       text: `
-        <p>Livret de présentation du projet <i>Convenances</i> pour la Réunion des Musées Nationaux.</p>
+        <p>Livret de présentation du projet <i>Convenances</i> pour la Réunion</br> des Musées Nationaux.</p>
       `,
     },
   ]

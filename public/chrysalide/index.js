@@ -17,8 +17,8 @@ module.exports = {
       subtitle: "Collection Printemps-Été",
       date: "06 • 2013",
       text: `
-        <p>Chrysalide serait une figure de La Métamorphose de Kafka, elle révèlerait une vérité jusqu’alors méconnue.</p>
-        <p>Les masques peinent à tomber et la figure de l’insecte, surgissant de la chair, est aussitôt fardée. Nue, la peau se gonfle et s’étire en résistance à sa propre mutation.</p>
+        <p>Chrysalide serait une figure</br> de La Métamorphose de Kafka,</br> elle révèlerait une vérité</br> jusqu’alors méconnue.</p>
+        <p>Les masques peinent à tomber</br> et la figure de l’insecte, surgis-</br>sant de la chair, est aussitôt</br> fardée. Nue, la peau se gonfle</br> et s’étire en résistance à sa</br> propre mutation.</p>
       `,
     },
     {
@@ -28,11 +28,11 @@ module.exports = {
         { src: "projet2/01.jpg", alt: "" },
         { src: "projet2/02.jpg", alt: "" },
       ],
-      title: "Couleurs & Matières",
+      title: "Couleurs</br> & Matières",
       subtitle: "Collection Printemps-Été",
       date: "06 • 2013",
       text: `
-        <p>Des ailes d’insectes figées dans des cristaux de roche, aux prémices de Chrysalide.</p>
+        <p>Des ailes d’insectes figées</br> dans des cristaux de roche,</br> aux prémices de Chrysalide.</p>
       `,
     },
     {
@@ -49,7 +49,7 @@ module.exports = {
       subtitle: "Collection Printemps-Été",
       date: "06 • 2013",
       text: `
-        <p>Recherches graphiques préliminaires à la collection de textiles Chrysalide.</p>
+        <p>Recherches graphiques</br> préliminaires à la collection</br> de textiles Chrysalide.</p>
       `,
     },
   ]

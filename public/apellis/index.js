@@ -17,8 +17,8 @@ module.exports = {
       subtitle: "Défi Innover Ensemble",
       date: "07 • 2014",
       text: `
-        <p>La minaudière Aglaé est issue d’une volonté de magnifier les savoir-faire autour du cuir.</p>
-        <p>L’imbrication de lanières de cuir, posées sur la tranche, a généré un matériau à la fois rigide et flexible. Il est apparu comme un élément structurel et décoratif, porteur d’une gamme d’objets raffinés : la ligne de maroquinerie Apellis.</p>
+        <p>La minaudière Aglaé est issue</br> d’une volonté de magnifier</br> les savoir-faire autour du cuir.</p>
+        <p>L’imbrication de lanières de cuir, posées sur la tranche, a généré</br> un matériau à la fois rigide</br> et flexible. Il est apparu comme</br> un élément structurel et décoratif, porteur d’une gamme d’objets raffinés : la ligne de maroquinerie Apellis.</p>
       `,
       subtext: `
         <p>2e prix du Défi Innover Ensemble, Quatrième édition.</p>
@@ -42,7 +42,7 @@ module.exports = {
       subtitle: "Défi Innover Ensemble",
       date: "07 • 2014",
       text: `
-        <p>Livret de présentation du projet Apellis pour la quatrième édition du Défi Innover Ensemble.</p>
+        <p>Livret de présentation du projet Apellis pour la quatrième édition</br> du Défi Innover Ensemble.</p>
       `,
     },
   ]
