@@ -14,9 +14,9 @@ module.exports = {
       title: "Clichés",
       subtitle: "Collection Printemps-Été",
       date: "06 • 2012",
-      text: `
-        <p>Les idéaux esthétiques de l’amour passionnel prennent la forme de compositions florales.</p>
-        <p>Le cliché du bouquet de fleurs se délite peu à peu, il s’épanouit puis se répand comme un nuage de fumée.</p>
+      text:  `
+        <p>Les idéaux esthétiques de</br> l’amour passionnel prennent</br> la forme de compositions florales.</p>
+        <p>Le cliché du bouquet de fleurs</br> se délite peu à peu, il s’épanouit</br> puis se répand comme un nuage</br> de fumée.</p>
       `,
     },
     {
@@ -31,8 +31,8 @@ module.exports = {
       subtitle: "Collection Automne-Hiver",
       date: "04 • 2012",
       text: `
-        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>
-        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>
+        <p>Cette collection est à l’image</br> d’une candeur adolescente,</br> prête à être consumée.</p>
+        <p>C’est un temps suspendu</br> entre le corps et la cigarette,</br> un mélange subtil entre le dedans</br> et le dehors: l’enveloppe blanche</br> de l’objet interdit et les teintes brunes du tabac.</p>
       `,
     },
     {
@@ -46,7 +46,7 @@ module.exports = {
       subtitle: "Collection Automne-Hiver",
       date: "02 • 2013",
       text: `
-        <p>Le charme de l’enfance est évoqué dans une combinaison espiègle de nuances chaudes et froides. Une palette délicate aux teintes pastel, semées de touches vives, donne à l’hiver la gaieté des jours de vacances.</p>
+        <p>Le charme de l’enfance est</br> évoqué dans une combinaison espiègle de nuances chaudes</br> et froides.</br></br> Une palette délicate aux teintes pastel, semées de touches vives, donne à l’hiver la gaieté des jours</br> de vacances.</p>
       `,
     },
     {
@@ -62,9 +62,9 @@ module.exports = {
       subtitle: "Collection Printemps-Été",
       date: "06 • 2012",
       text: `
-        <p>La cigarette comme la passion amoureuse caresse l’éphémère par sa consumation rapide.</p>
-        <p>Une nature morte métallique serait à l’image d’un mégot écrasé.</p>
-        <p>La matière, devient un objet usé et calciné : elle est le résultat de l’épuisement dans la tension qui s’opère entre deux corps.</p>
+        <p>La cigarette comme la passion amoureuse caresse l’éphémère</br> par sa consumation rapide.</p>
+        <p>Une nature morte métallique</br> serait à l’image d’un mégot écrasé.</p>
+        <p>La matière, devient un objet usé</br> et calciné : elle est le résultat</br> de l’épuisement dans la tension</br> qui s’opère entre deux corps.</p>
       `,
     },
     {
@@ -80,8 +80,7 @@ module.exports = {
       subtitle: "Dessins",
       date: "06 • 2014",
       text: `
-        <p>Ces visages à l’esthétique convenue incarnent le règne de l’image. Ce dernier tire sa force du maintient perpétuel de l’illusion.</p>
-        <p>Les êtres à la mode sont l’accomplissement d’un monde aux images sacrées, ils s’effacent dans le mirage de l’autoprojection.</p>
+        <p>Ces visages à l’esthétique convenue incarnent le règne de l’image.</p>
       `,
     },
   ]

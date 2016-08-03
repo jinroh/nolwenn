@@ -13,52 +13,36 @@ module.exports = {
         { src: "projet1/02.jpg", alt: "" },
         { src: "projet1/03.jpg", alt: "" },
       ],
-      title: "Aglaé",
-      subtitle: "Collection Automne-Hiver",
-      date: "04 • 2012",
+      title: "Apellis",
+      subtitle: "Défi Innover Ensemble",
+      date: "07 • 2014",
       text: `
-        <p>Cette collection est à l’image d’une candeur adolescente, prête à être consumée.</p>
-        <p>C’est un temps suspendu entre le corps et la cigarette, un mélange subtil entre le dedans et le dehors: l’enveloppe blanche de l’objet interdit et les teintes brunes du tabac.</p>
+        <p>La minaudière Aglaé est issue</br> d’une volonté de magnifier</br> les savoir-faire autour du cuir.</p>
+        <p>L’imbrication de lanières de cuir, posées sur la tranche, a généré</br> un matériau à la fois rigide</br> et flexible. Il est apparu comme</br> un élément structurel et décoratif, porteur d’une gamme d’objets raffinés : la ligne de maroquinerie Apellis.</p>
       `,
       subtext: `
-        <p>Disponible à la <a href="">Étoffes granitée</a></p>`
+        <p>2e prix du Défi Innover Ensemble, Quatrième édition.</p>
+      `
     },
     {
-      projectId: "cliches",
+      projectId: "livretapellis",
       cursor: { x: 61.5, y: 73, cursor: "18" },
       images: [
         { src: "projet2/01.jpg", alt: "" },
         { src: "projet2/02.jpg", alt: "" },
         { src: "projet2/03.jpg", alt: "" },
+        { src: "projet2/04.jpg", alt: "" },
+        { src: "projet2/05.jpg", alt: "" },
+        { src: "projet2/06.jpg", alt: "" },
+        { src: "projet2/07.jpg", alt: "" },
+        { src: "projet2/08.jpg", alt: "" },
+        { src: "projet2/09.jpg", alt: "" },
       ],
-      title: "Clichés",
-      subtitle: "Collection Printemps-Été",
-      date: "06 • 2012",
+      title: "Livret",
+      subtitle: "Défi Innover Ensemble",
+      date: "07 • 2014",
       text: `
-        <p>Les idéaux esthétiques de l’amour passionnel prennent la forme de compositions florales.</p>
-        <p>Le cliché du bouquet de fleurs se délite peu à peu, il s’épanouit puis se répand comme un nuage de fumée.</p>
-      `,
-      subtext: `
-        <p>Étoffes <i>granitées</i>, réalisées sur un métier à tisser à lames, impression sur chaîne.</p>
-      `,
-    },
-    {
-      projectId: "cliches2",
-      cursor: { x: 19, y: 5, cursor: "03" },
-      images: [
-        { src: "projet2/01.jpg", alt: "" },
-        { src: "projet2/02.jpg", alt: "" },
-        { src: "projet2/03.jpg", alt: "" },
-      ],
-      title: "Clichés",
-      subtitle: "Collection Printemps-Été",
-      date: "06 • 2012",
-      text: `
-        <p>Les idéaux esthétiques de l’amour passionnel prennent la forme de compositions florales.</p>
-        <p>Le cliché du bouquet de fleurs se délite peu à peu, il s’épanouit puis se répand comme un nuage de fumée.</p>
-      `,
-      subtext: `
-        <p>Étoffes <i>granitées</i>, réalisées sur un métier à tisser à lames, impression sur chaîne.</p>
+        <p>Livret de présentation du projet Apellis pour la quatrième édition</br> du Défi Innover Ensemble.</p>
       `,
     },
   ]
