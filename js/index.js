@@ -46,11 +46,13 @@ const SiteHeader = React.createClass({
     return false;
   },
   render() {
+    const { stageId } = this.props;
     return (
       <header className="site-header">
         <h1>Nolwenn  Le Scao</h1>
         <p>
-          <a href="/pdf/NolwennLeScao_CV.pdf" target="_blank">Curriculum</a> | <Link to="/contact">Contact</Link>
+          <a href="/pdf/NolwennLeScao_CV.pdf" target="_blank">Curriculum</a> |
+          <Link to={`/${stageId}/contact`}>Contact</Link>
         </p>
       </header>
     );
@@ -284,7 +286,7 @@ const App = React.createClass({
           {backgroundElement}
         </ReactCSSTransitionGroup>
 
-        <SiteHeader />
+        <SiteHeader stageId={stageId} />
 
         <ReactCSSTransitionGroup
           component="div"
@@ -306,13 +308,22 @@ const App = React.createClass({
   }
 });
 
+const Contact = React.createClass({
+  render() {
+    return (
+      <div className="contact-container">
+        <img src="pdf/carte_de_visite.jpg" />
+      </div>
+    );
+  }
+});
+
 const routes = (
   <Route path="/" component={App}>
     <Route path=":stageId" component={StageViewer}>
+      <Route path="contact" component={Contact} />
       <Route path=":projectId" component={ProjectViewer} />
     </Route>
-    <Route path="/about" />
-    <Route path="/contact" />
     <IndexRedirect from="/" to={`/${initialStage}`} />
   </Route>
 );
