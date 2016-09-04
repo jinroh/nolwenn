@@ -5,5 +5,6 @@ module.exports = {
     require("./apellis"),
     require("./convenances"),
     require("./chrysalide"),
+    require("./sousluniforme"),
   ],
 };
