@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "node node_modules/webpack/bin/webpack.js --progress",
-    "watch": "node node_modules/webpack/bin/webpack.js --progress -w"
+    "watch": "node node_modules/webpack/bin/webpack.js --progress -w",
+    "deploy": "git checkout gh-pages && git checkout master -- public/ && cp -r public/* . && rm -r public/ && git add . && git commit -m \"release\""
   },
   "author": "",
   "license": "ISC",
