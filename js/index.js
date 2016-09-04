@@ -13,6 +13,10 @@ const history = createHashHistory({ queryKey: false });
 
 throttle("resize", "throttledResize", window);
 
+function toDangerousHtml(text) {
+  return { __html: text };
+}
+
 const ProjectTooltip = React.createClass({
   render() {
     const {
@@ -32,9 +36,9 @@ const ProjectTooltip = React.createClass({
         style={tooltipStyle}
       >
         <div>
-          <p>{project.title}</p>
-          <p className="project-tooltip-subtitle">{project.subtitle}</p>
-          <p className="project-tooltip-date"><span>{project.date}</span></p>
+          <p dangerouslySetInnerHTML={toDangerousHtml(project.title)} />
+          <p className="project-tooltip-subtitle" dangerouslySetInnerHTML={toDangerousHtml(project.subtitle)} />
+          <p className="project-tooltip-date"><span dangerouslySetInnerHTML={toDangerousHtml(project.date)} /></p>
         </div>
       </div>
     );
@@ -208,7 +212,7 @@ const StageViewer = React.createClass({
           src={`${stage.stageId}/video.mp4`}
           className="stage-image"
           style={stageImageStyle}
-          onLoadedData={this.onImageLoaded}
+          onLoadedMetadata={this.onImageLoaded}
           autoPlay={true}
           loop={true} />
       : <img

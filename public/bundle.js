@@ -79,6 +79,10 @@
 
 	throttle("resize", "throttledResize", window);
 
+	function toDangerousHtml(text) {
+	  return { __html: text };
+	}
+
 	var ProjectTooltip = React.createClass({
 	  displayName: "ProjectTooltip",
 	  render: function render() {
@@ -101,24 +105,12 @@
 	      React.createElement(
 	        "div",
 	        null,
-	        React.createElement(
-	          "p",
-	          null,
-	          project.title
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "project-tooltip-subtitle" },
-	          project.subtitle
-	        ),
+	        React.createElement("p", { dangerouslySetInnerHTML: toDangerousHtml(project.title) }),
+	        React.createElement("p", { className: "project-tooltip-subtitle", dangerouslySetInnerHTML: toDangerousHtml(project.subtitle) }),
 	        React.createElement(
 	          "p",
 	          { className: "project-tooltip-date" },
-	          React.createElement(
-	            "span",
-	            null,
-	            project.date
-	          )
+	          React.createElement("span", { dangerouslySetInnerHTML: toDangerousHtml(project.date) })
 	        )
 	      )
 	    );
@@ -332,7 +324,7 @@
 	      src: stage.stageId + "/video.mp4",
 	      className: "stage-image",
 	      style: stageImageStyle,
-	      onLoadedData: this.onImageLoaded,
+	      onLoadedMetadata: this.onImageLoaded,
 	      autoPlay: true,
 	      loop: true }) : React.createElement("img", {
 	      ref: function ref(_ref2) {
@@ -30315,7 +30307,7 @@
 	    title: "Clichés",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2012",
-	    text: "\n        <p>Les idéaux esthétiques de</br> l’amour passionnel prennent</br> la forme de compositions florales.</p>\n        <p>Le cliché du bouquet de fleurs</br> se délite peu à peu, il s’épanouit</br> puis se répand comme un nuage</br> de fumée.</p>\n      "
+	    text: "\n        <p>Les idéaux esthétiques de<br/> l’amour passionnel prennent<br/> la forme de compositions florales.</p>\n        <p>Le cliché du bouquet de fleurs<br/> se délite peu à peu, il s’épanouit<br/> puis se répand comme un nuage<br/> de fumée.</p>\n      "
 	  }, {
 	    projectId: "premiere-cigarette",
 	    cursor: { x: 50, y: 43, cursor: "18" },
@@ -30323,7 +30315,7 @@
 	    title: "Première Cigarette",
 	    subtitle: "Collection Automne-Hiver",
 	    date: "04 • 2012",
-	    text: "\n        <p>Cette collection est à l’image</br> d’une candeur adolescente,</br> prête à être consumée.</p>\n        <p>C’est un temps suspendu</br> entre le corps et la cigarette,</br> un mélange subtil entre le dedans</br> et le dehors: l’enveloppe blanche</br> de l’objet interdit et les teintes brunes du tabac.</p>\n      "
+	    text: "\n        <p>Cette collection est à l’image<br/> d’une candeur adolescente,<br/> prête à être consumée.</p>\n        <p>C’est un temps suspendu<br/> entre le corps et la cigarette,<br/> un mélange subtil entre le dedans<br/> et le dehors: l’enveloppe blanche<br/> de l’objet interdit et les teintes brunes du tabac.</p>\n      "
 	  }, {
 	    projectId: "hiver-nacre",
 	    cursor: { x: 46, y: 57, cursor: "06" },
@@ -30331,7 +30323,7 @@
 	    title: "Hiver Nacré",
 	    subtitle: "Collection Automne-Hiver",
 	    date: "02 • 2013",
-	    text: "\n        <p>Le charme de l’enfance est</br> évoqué dans une combinaison espiègle de nuances chaudes</br> et froides.</br></br> Une palette délicate aux teintes pastel, semées de touches vives, donne à l’hiver la gaieté des jours</br> de vacances.</p>\n      "
+	    text: "\n        <p>Le charme de l’enfance est<br/> évoqué dans une combinaison espiègle de nuances chaudes<br/> et froides.<br/><br/> Une palette délicate aux teintes pastel, semées de touches vives, donne à l’hiver la gaieté des jours<br/> de vacances.</p>\n      "
 	  }, {
 	    projectId: "cendrier",
 	    cursor: { x: 56, y: 83, cursor: "13" },
@@ -30339,7 +30331,7 @@
 	    title: "Cendrier",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2012",
-	    text: "\n        <p>La cigarette comme la passion amoureuse caresse l’éphémère</br> par sa consumation rapide.</p>\n        <p>Une nature morte métallique</br> serait à l’image d’un mégot écrasé.</p>\n        <p>La matière, devient un objet usé</br> et calciné : elle est le résultat</br> de l’épuisement dans la tension</br> qui s’opère entre deux corps.</p>\n      "
+	    text: "\n        <p>La cigarette comme la passion amoureuse caresse l’éphémère<br/> par sa consumation rapide.</p>\n        <p>Une nature morte métallique<br/> serait à l’image d’un mégot écrasé.</p>\n        <p>La matière, devient un objet usé<br/> et calciné : elle est le résultat<br/> de l’épuisement dans la tension<br/> qui s’opère entre deux corps.</p>\n      "
 	  }, {
 	    projectId: "particules",
 	    cursor: { x: 32, y: 6, cursor: "12" },
@@ -30370,7 +30362,7 @@
 	    title: "Apellis",
 	    subtitle: "Défi Innover Ensemble",
 	    date: "07 • 2014",
-	    text: "\n        <p>La minaudière Aglaé est issue</br> d’une volonté de magnifier</br> les savoir-faire autour du cuir.</p>\n        <p>L’imbrication de lanières de cuir, posées sur la tranche, a généré</br> un matériau à la fois rigide</br> et flexible. Il est apparu comme</br> un élément structurel et décoratif, porteur d’une gamme d’objets raffinés : la ligne de maroquinerie Apellis.</p>\n      ",
+	    text: "\n        <p>La minaudière Aglaé est issue<br/> d’une volonté de magnifier<br/> les savoir-faire autour du cuir.</p>\n        <p>L’imbrication de lanières de cuir, posées sur la tranche, a généré<br/> un matériau à la fois rigide<br/> et flexible. Il est apparu comme<br/> un élément structurel et décoratif, porteur d’une gamme d’objets raffinés : la ligne de maroquinerie Apellis.</p>\n      ",
 	    subtext: "\n        <p>2e prix du Défi Innover Ensemble, Quatrième édition.</p>\n      "
 	  }, {
 	    projectId: "livretapellis",
@@ -30379,7 +30371,7 @@
 	    title: "Livret",
 	    subtitle: "Défi Innover Ensemble",
 	    date: "07 • 2014",
-	    text: "\n        <p>Livret de présentation du projet Apellis pour la quatrième édition</br> du Défi Innover Ensemble.</p>\n      "
+	    text: "\n        <p>Livret de présentation du projet Apellis pour la quatrième édition<br/> du Défi Innover Ensemble.</p>\n      "
 	  }]
 	};
 
@@ -30401,8 +30393,8 @@
 	    title: "Convenances",
 	    subtitle: "Linge de table",
 	    date: "02 • 2014",
-	    text: "\n        <p>Ce linge de table s’inspire</br> du savoir-vivre à la française,</br> il invite à revivre l’élégance</br> d’un moment XVIIIe siècle.</p>\n        <p>Des feuillages luxuriants</br> s’articulent autour de person-</br>nages issus de céramiques</br> et de tapisseries présentes</br> au Musée du Louvre.</p>\n      ",
-	    subtext: "\n        <p>Diponible à la boutique</br> du <a href=\"http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html\">Musée du Louvre.</a></p>"
+	    text: "\n        <p>Ce linge de table s’inspire<br/> du savoir-vivre à la française,<br/> il invite à revivre l’élégance<br/> d’un moment XVIIIe siècle.</p>\n        <p>Des feuillages luxuriants<br/> s’articulent autour de person-<br/>nages issus de céramiques<br/> et de tapisseries présentes<br/> au Musée du Louvre.</p>\n      ",
+	    subtext: "\n        <p>Diponible à la boutique<br/> du <a href=\"http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html\">Musée du Louvre.</a></p>"
 	  }, {
 	    projectId: "livret",
 	    cursor: { x: 80, y: 65, cursor: "15" },
@@ -30410,7 +30402,7 @@
 	    title: "Convenances",
 	    subtitle: "Livret",
 	    date: "02 • 2014",
-	    text: "\n        <p>Livret de présentation du projet <i>Convenances</i> pour la Réunion</br> des Musées Nationaux.</p>\n      "
+	    text: "\n        <p>Livret de présentation du projet <i>Convenances</i> pour la Réunion<br/> des Musées Nationaux.</p>\n      "
 	  }]
 	};
 
@@ -30433,15 +30425,15 @@
 	    title: "Étoffes",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2013",
-	    text: "\n        <p>Chrysalide serait une figure</br> de La Métamorphose de Kafka,</br> elle révèlerait une vérité</br> jusqu’alors méconnue.</p>\n        <p>Les masques peinent à tomber</br> et la figure de l’insecte, surgis-</br>sant de la chair, est aussitôt</br> fardée. Nue, la peau se gonfle</br> et s’étire en résistance à sa</br> propre mutation.</p>\n      "
+	    text: "\n        <p>Chrysalide serait une figure<br/> de La Métamorphose de Kafka,<br/> elle révèlerait une vérité<br/> jusqu’alors méconnue.</p>\n        <p>Les masques peinent à tomber<br/> et la figure de l’insecte, surgis-<br/>sant de la chair, est aussitôt<br/> fardée. Nue, la peau se gonfle<br/> et s’étire en résistance à sa<br/> propre mutation.</p>\n      "
 	  }, {
 	    projectId: "couleursetmatieres",
 	    cursor: { x: 75, y: 50, cursor: "11" },
 	    images: [{ src: "projet2/01.jpg", alt: "" }, { src: "projet2/02.jpg", alt: "" }],
-	    title: "Couleurs</br> & Matières",
+	    title: "Couleurs<br/> & Matières",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2013",
-	    text: "\n        <p>Des ailes d’insectes figées</br> dans des cristaux de roche,</br> aux prémices de Chrysalide.</p>\n      "
+	    text: "\n        <p>Des ailes d’insectes figées<br/> dans des cristaux de roche,<br/> aux prémices de Chrysalide.</p>\n      "
 	  }, {
 	    projectId: "carnet",
 	    cursor: { x: 42, y: 36, cursor: "19" },
@@ -30449,7 +30441,7 @@
 	    title: "Carnet de recherches",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2013",
-	    text: "\n        <p>Recherches graphiques</br> préliminaires à la collection</br> de textiles Chrysalide.</p>\n      "
+	    text: "\n        <p>Recherches graphiques<br/> préliminaires à la collection<br/> de textiles Chrysalide.</p>\n      "
 	  }]
 	};
 
