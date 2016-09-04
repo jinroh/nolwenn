@@ -52,8 +52,7 @@ const SiteHeader = React.createClass({
       <header className="site-header">
         <h1>Nolwenn  Le Scao</h1>
         <p>
-          <a href="/pdf/NolwennLeScao_CV.pdf" target="_blank">Curriculum</a> |
-          <Link to={`/${stageId}/contact`}>Contact</Link>
+          <a href="/pdf/NolwennLeScao_CV.pdf" target="_blank">Parcours</a> |           <Link to={`/${stageId}/contact`}>Contact</Link>
         </p>
       </header>
     );
