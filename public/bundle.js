@@ -144,8 +144,8 @@
 	        null,
 	        React.createElement(
 	          "a",
-	          { href: "/pdf/Curiculum_Vitae-Nolwenn_Le_Scao.pdf", target: "_blank" },
-	          "Curiculum"
+	          { href: "/pdf/NolwennLeScao_CV.pdf", target: "_blank" },
+	          "Curriculum"
 	        ),
 	        " | ",
 	        React.createElement(
