@@ -50,7 +50,7 @@ const SiteHeader = React.createClass({
       <header className="site-header">
         <h1>Nolwenn  Le Scao</h1>
         <p>
-          <a href="../public/pdf/Curiculum_Vitae-Nolwenn_Le_Scao.pdf" download="Curiculum_Vitae-Nolwenn_Le_Scao">À propos</a> | <Link to="/contact">Contact</Link>
+          <a href="../public/pdf/Curiculum_Vitae-Nolwenn_Le_Scao.pdf" download="Curiculum_Vitae-Nolwenn_Le_Scao">À propos</a> | <Link to="/contact">Contacts</Link>
         </p>
       </header>
     );
@@ -120,7 +120,7 @@ const StageViewer = React.createClass({
     if (siteHeader) {
       height -= siteHeader.getBoundingClientRect().height;
     }
-    
+
     const imageWidth  = (height - 3 / 100 * height) * imgRatio;
     const imageHeight = (height - 3 / 100 * height);
 
