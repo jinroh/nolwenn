@@ -315,9 +315,9 @@ const Contact = React.createClass({
 
     return (
       <div className="project-container">
-        <img src="pdf/carte_de_visite.jpg" />
+        <img src="pdf/carte_de_visite.jpg" className="carte_de_visite"/>
         <Link
-          className="project-close noselect"
+          className="close_carte_de_visite noselect"
           to={`/${stageId}`}>×</Link>
       </div>
     );
