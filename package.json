@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node node_modules/webpack/bin/webpack.js --progress",
     "watch": "node node_modules/webpack/bin/webpack.js --progress -w",
-    "deploy": "git checkout gh-pages && git checkout master -- public/ && cp -r public/* . && rm -r public/ && git add . && git commit -m \"release\""
+    "deploy": "git checkout gh-pages && git checkout master -- public/ && cp -r public/* . && rm -r public/ && git add . && git commit -m \"release\" && git checkout master"
   },
   "author": "",
   "license": "ISC",
