@@ -451,10 +451,21 @@
 	var Contact = React.createClass({
 	  displayName: "Contact",
 	  render: function render() {
+	    var params = this.props.params;
+	    var stageId = params.stageId;
+
+
 	    return React.createElement(
 	      "div",
-	      { className: "contact-container" },
-	      React.createElement("img", { src: "pdf/carte_de_visite.jpg" })
+	      { className: "project-container" },
+	      React.createElement("img", { src: "pdf/carte_de_visite.jpg" }),
+	      React.createElement(
+	        Link,
+	        {
+	          className: "project-close noselect",
+	          to: "/" + stageId },
+	        "×"
+	      )
 	    );
 	  }
 	});

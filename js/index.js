@@ -310,9 +310,15 @@ const App = React.createClass({
 
 const Contact = React.createClass({
   render() {
+    const { params } = this.props;
+    const { stageId } = params;
+
     return (
-      <div className="contact-container">
+      <div className="project-container">
         <img src="pdf/carte_de_visite.jpg" />
+        <Link
+          className="project-close noselect"
+          to={`/${stageId}`}>×</Link>
       </div>
     );
   }
