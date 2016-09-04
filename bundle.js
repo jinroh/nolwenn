@@ -79,6 +79,10 @@
 
 	throttle("resize", "throttledResize", window);
 
+	function toDangerousHtml(text) {
+	  return { __html: text };
+	}
+
 	var ProjectTooltip = React.createClass({
 	  displayName: "ProjectTooltip",
 	  render: function render() {
@@ -101,24 +105,12 @@
 	      React.createElement(
 	        "div",
 	        null,
-	        React.createElement(
-	          "p",
-	          null,
-	          project.title
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "project-tooltip-subtitle" },
-	          project.subtitle
-	        ),
+	        React.createElement("p", { dangerouslySetInnerHTML: toDangerousHtml(project.title) }),
+	        React.createElement("p", { className: "project-tooltip-subtitle", dangerouslySetInnerHTML: toDangerousHtml(project.subtitle) }),
 	        React.createElement(
 	          "p",
 	          { className: "project-tooltip-date" },
-	          React.createElement(
-	            "span",
-	            null,
-	            project.date
-	          )
+	          React.createElement("span", { dangerouslySetInnerHTML: toDangerousHtml(project.date) })
 	        )
 	      )
 	    );
@@ -144,9 +136,9 @@
 	        React.createElement(
 	          "a",
 	          { href: "/pdf/NolwennLeScao_CV.pdf", target: "_blank" },
-	          "Curriculum"
+	          "Parcours"
 	        ),
-	        " |",
+	        " |           ",
 	        React.createElement(
 	          Link,
 	          { to: "/" + stageId + "/contact" },
@@ -332,7 +324,7 @@
 	      src: stage.stageId + "/video.mp4",
 	      className: "stage-image",
 	      style: stageImageStyle,
-	      onLoadedData: this.onImageLoaded,
+	      onLoadedMetadata: this.onImageLoaded,
 	      autoPlay: true,
 	      loop: true }) : React.createElement("img", {
 	      ref: function ref(_ref2) {
@@ -526,7 +518,7 @@
 
 
 	// module
-	exports.push([module.id, "a,\nabbr,\nacronym,\naddress,\napplet,\narticle,\naside,\naudio,\nb,\nbig,\nblockquote,\nbody,\nbutton,\ncanvas,\ncaption,\ncenter,\ncite,\ncode,\ndd,\ndel,\ndetails,\ndfn,\ndiv,\ndl,\ndt,\nem,\nembed,\nfieldset,\nfigcaption,\nfigure,\nfooter,\nform,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\nheader,\nhgroup,\nhtml,\ni,\niframe,\nimg,\nins,\nkbd,\nlabel,\nlegend,\nli,\nmark,\nmenu,\nnav,\nobject,\nol,\noutput,\np,\npre,\nq,\nruby,\ns,\nsamp,\nsection,\nsmall,\nspan,\nstrike,\nstrong,\nsub,\nsummary,\nsup,\ntable,\ntbody,\ntd,\ntfoot,\nth,\nthead,\ntime,\ntr,\ntt,\nu,\nul,\nvar,\nvideo {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font: inherit;\n  vertical-align: baseline;\n  image-rendering: optimizeQuality;\n}\n@font-face {\n  font-family: \"prumo-display-extralight\";\n  src: url(" + __webpack_require__(4) + ");\n  font-stretch: normal;\n}\nbody {\n  image-rendering: -webkit-optimize-contrast;\n  font-family: \"Open Sans\", sans-serif;\n  overflow: hidden;\n  font-size: .95em;\n  color: #f42b41;\n}\ni {\n  font-style: italic;\n}\n*,\n*::before,\n*::after {\n  box-shadow: border-box;\n  box-sizing: content-box;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n}\n::-moz-selection {\n  background: #FAFAFA;\n}\n::selection {\n  background: #FAFAFA;\n}\n::-moz-selection {\n  background: #FAFAFA;\n}\n.noselect {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\na {\n  color: inherit;\n  text-decoration: underline;\n}\nul,\nmenu {\n  list-style: none;\n  margin: 0;\n}\nstrong {\n  font-weight: bold;\n}\nbody {\n  font-family: \"Open Sans\", sans-serif;\n  width: 100%;\n}\nmain {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  z-index: 0;\n  border-bottom: 0.2em solid #f42b41;\n}\n.site-header {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  height: 7em;\n  text-align: center;\n  z-index: 0;\n  color: #D6C3BC;\n  z-index: 10;\n  color: #f42b41;\n  background-color: #E8E8E8;\n  border-bottom: 0.3em solid #f42b41;\n}\n.site-header h1 {\n  font-family: \"prumo-display-extralight\", serif;\n  font-size: 1.6em;\n  color: inherit;\n  text-transform: uppercase;\n  letter-spacing: .2em;\n  padding: 1.7em 1em 0 1em;\n}\n.site-header p {\n  font-family: \"Open Sans\", sans-serif;\n  text-transform: uppercase;\n  font-size: .5em;\n  letter-spacing: 0.2em;\n}\n.site-header a {\n  text-decoration: none;\n}\n.site-header a:hover {\n  text-decoration: underline;\n}\n.stages-container {\n  border-left: 0.2em solid #f42b41;\n  border-right: 0.2em solid #f42b41;\n  box-sizing: border-box;\n  position: absolute;\n  top: 7em;\n  width: 100%;\n  height: 100%;\n  z-index: 0;\n}\n.stage-background {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 0;\n  overflow: hidden;\n}\n.stage-background img {\n  width: 100%;\n  height: 100%;\n}\n.stage {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  margin: 0 auto;\n}\n.stage .project-tooltip {\n  position: absolute;\n  background-color: rgba(40, 27, 10, 0.6);\n  box-shadow: 0px 0px 1px 0px rgba(40, 27, 10, 0.6);\n  color: #F4E6E1;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: .8em;\n  letter-spacing: .05em;\n}\n.stage .project-tooltip .project-tooltip-subtitle {\n  font-family: \"Open Sans\", sans-serif;\n  font-style: italic;\n  font-weight: 100;\n}\n.stage .project-tooltip .project-tooltip-date {\n  font-size: .8em;\n  font-weight: 100;\n  padding: .5em 0 .05em 0;\n}\n.stage .project-tooltip .project-tooltip-date > span {\n  border-top: #C3B9B5 1px solid;\n  border-bottom: #C3B9B5 1px solid;\n}\n.stage .project-tooltip > div {\n  padding: .4em .5em .6em 1em;\n}\n.stage .project-tooltip > div p {\n  padding: .05em 0;\n}\n.stage-nav-arrow {\n  display: block;\n  position: fixed;\n  right: 2%;\n  bottom: 7%;\n  height: 12%;\n  width: 20px;\n}\n.stage-nav-arrow img {\n  height: 100%;\n  margin: auto;\n}\n.cursor {\n  position: absolute;\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: cover;\n  background-clip: content-box;\n  color: transparent;\n  text-indent: -10000px;\n  border: .2em solid transparent;\n}\n.project-container {\n  position: absolute;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.carte_de_visite {\n  width: 500px;\n}\n.close_carte_de_visite {\n  color: #F7AFB6;\n  font-family: \"prumo-display-extralight\";\n  font-weight: 100;\n  position: relative;\n  top: -113px;\n  right: 108px;\n  font-size: 10em;\n  line-height: 0.5em;\n  text-decoration: none;\n}\n.project-white-overlay {\n  position: fixed;\n  top: 0;\n  right: 3px;\n  bottom: 3px;\n  left: 3px;\n  background-color: rgba(255, 255, 255, 0.5);\n}\n.project-viewer {\n  position: relative;\n  width: 90%;\n  height: 80%;\n  overflow: hidden;\n  margin-bottom: 7%;\n}\n.project-slide-show {\n  position: absolute;\n  height: 101%;\n  width: 100%;\n  overflow: hidden;\n  background-color: #EFE7E8;\n}\n.project-slide-show .image-navigation {\n  position: absolute;\n  bottom: 3%;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  width: 66%;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-left: 4%;\n}\n.project-slide-show .image-navigation a {\n  text-decoration: none;\n}\n.project-slide-show .image-navigation .image-navigation-dot {\n  border-radius: 50%;\n  border: 1px solid #F7AFB6;\n  width: 4px;\n  height: 4px;\n  margin: 4px;\n  padding: 2px;\n  background-clip: content-box;\n}\n.project-slide-show .image-navigation .image-navigation-dot.image-navigation-dot-selected {\n  background-color: #f42b41;\n}\n.project-slide-show .project-image {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n}\n.project-description {\n  position: absolute;\n  top: 120px;\n  right: 5%;\n  width: 180px;\n}\n.project-description .project-description-title {\n  text-transform: uppercase;\n  font-size: 1em;\n  margin: 0 0 0.1em 0;\n  letter-spacing: 0.5px;\n}\n.project-description .project-description-subtitle {\n  font-style: italic;\n  margin: 0 0 0.7em 0;\n  font-size: 0.8em;\n}\n.project-description .project-description-title,\n.project-description .project-description-subtitle {\n  font-family: \"prumo-display-extralight\", serif;\n  font-weight: 100;\n}\n.project-description .project-description-date {\n  border-top: #F7AFB6 1px solid;\n  border-bottom: #F7AFB6 1px solid;\n  line-height: 1.5em;\n  font-size: 0.7em;\n}\n.project-description .project-description-text {\n  font-family: \"Open Sans\", sans-serif;\n  line-height: 1.5em;\n  font-size: 0.7em;\n}\n.project-description .project-description-text p {\n  margin: 1em 0;\n}\n.project-description hr {\n  width: 47px;\n  display: block;\n  height: 1px;\n  border: 0;\n  border-top: 1px solid #F7AFB6;\n  margin: 1em 0;\n  padding: 0;\n}\n.project-navigation {\n  position: absolute;\n  width: 24%;\n  bottom: 2%;\n  right: 0.7%;\n  text-align: center;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n              -ms-grid-row-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.project-navigation .project-navigation-donut {\n  width: 30px;\n  height: 30px;\n  margin: 0 3%;\n}\n.project-navigation .project-navigation-arrow img {\n  width: 23%;\n}\n.project-close {\n  color: #F7AFB6;\n  font-family: \"prumo-display-extralight\";\n  font-weight: 100;\n  position: absolute;\n  top: 0;\n  right: 0;\n  font-size: 10em;\n  line-height: 0.5em;\n  text-decoration: none;\n}\n.stage-footer {\n  position: absolute;\n  bottom: 1%;\n  right: 1%;\n  color: #655C58;\n  font-family: \"Open Sans\", sans-serif;\n  text-transform: uppercase;\n  letter-spacing: 0.04em;\n}\n.stage-footer a {\n  text-decoration: none;\n  font-size: 6px;\n}\n.opacity-project-enter {\n  opacity: 0.01;\n}\n.opacity-project-enter.opacity-project-enter-active {\n  opacity: 1;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.opacity-project-leave {\n  opacity: 1;\n}\n.opacity-project-leave.opacity-project-leave-active {\n  opacity: 0.01;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.opacity-enter {\n  opacity: 0.01;\n}\n.opacity-enter.opacity-enter-active {\n  opacity: 1;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.opacity-leave {\n  opacity: 1;\n}\n.opacity-leave.opacity-leave-active {\n  opacity: 0.01;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.unroll-enter {\n  max-height: 0;\n  overflow: hidden;\n}\n.unroll-enter.unroll-enter-active {\n  max-height: 70px;\n  -webkit-transition: max-height 400ms ease-out;\n  transition: max-height 400ms ease-out;\n  overflow: hidden;\n}\n.unroll-leave {\n  max-height: 70px;\n  overflow: hidden;\n}\n.unroll-leave.unroll-leave-active {\n  max-height: 0;\n  -webkit-transition: max-height 400ms ease-out;\n  transition: max-height 400ms ease-out;\n  overflow: hidden;\n}\n.translate-enter {\n  -webkit-transform: translate3d(0, 120%, 0);\n          transform: translate3d(0, 120%, 0);\n}\n.translate-enter.translate-enter-active {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n  -webkit-transition: opacity 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n}\n.translate-leave {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n.translate-leave.translate-leave-active {\n  -webkit-transform: translate3d(0, -120%, 0);\n          transform: translate3d(0, -120%, 0);\n  -webkit-transition: opacity 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n}\n", ""]);
+	exports.push([module.id, "a,\nabbr,\nacronym,\naddress,\napplet,\narticle,\naside,\naudio,\nb,\nbig,\nblockquote,\nbody,\nbutton,\ncanvas,\ncaption,\ncenter,\ncite,\ncode,\ndd,\ndel,\ndetails,\ndfn,\ndiv,\ndl,\ndt,\nem,\nembed,\nfieldset,\nfigcaption,\nfigure,\nfooter,\nform,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\nheader,\nhgroup,\nhtml,\ni,\niframe,\nimg,\nins,\nkbd,\nlabel,\nlegend,\nli,\nmark,\nmenu,\nnav,\nobject,\nol,\noutput,\np,\npre,\nq,\nruby,\ns,\nsamp,\nsection,\nsmall,\nspan,\nstrike,\nstrong,\nsub,\nsummary,\nsup,\ntable,\ntbody,\ntd,\ntfoot,\nth,\nthead,\ntime,\ntr,\ntt,\nu,\nul,\nvar,\nvideo {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font: inherit;\n  vertical-align: baseline;\n  image-rendering: optimizeQuality;\n}\n@font-face {\n  font-family: \"prumo-display-extralight\";\n  src: url(" + __webpack_require__(4) + ");\n  font-stretch: normal;\n}\nbody {\n  image-rendering: -webkit-optimize-contrast;\n  font-family: \"Open Sans\", sans-serif;\n  overflow: hidden;\n  font-size: .95em;\n  color: #f42b41;\n}\ni {\n  font-style: italic;\n}\n*,\n*::before,\n*::after {\n  box-shadow: border-box;\n  box-sizing: content-box;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n}\n::-moz-selection {\n  background: #FAFAFA;\n}\n::selection {\n  background: #FAFAFA;\n}\n::-moz-selection {\n  background: #FAFAFA;\n}\n.noselect {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\na {\n  color: inherit;\n  text-decoration: underline;\n}\nul,\nmenu {\n  list-style: none;\n  margin: 0;\n}\nstrong {\n  font-weight: bold;\n}\nbody {\n  font-family: \"Open Sans\", sans-serif;\n  width: 100%;\n}\nmain {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  z-index: 0;\n  border-bottom: 0.2em solid #f42b41;\n}\n.site-header {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  height: 7em;\n  text-align: center;\n  z-index: 0;\n  color: #D6C3BC;\n  z-index: 10;\n  color: #f42b41;\n  background-color: #E8E8E8;\n  border-bottom: 0.2em solid #f42b41;\n}\n.site-header h1 {\n  font-family: \"prumo-display-extralight\", serif;\n  font-size: 1.6em;\n  color: inherit;\n  text-transform: uppercase;\n  letter-spacing: .4em;\n  padding: 1.55em 1em 0.15em  1em;\n}\n.site-header p {\n  font-family: \"Open Sans\", sans-serif;\n  text-transform: uppercase;\n  font-size: .6em;\n  letter-spacing: 0.2em;\n}\n.site-header a {\n  text-decoration: none;\n}\n.site-header a:hover {\n  text-decoration: underline;\n}\n.stages-container {\n  border-left: 0.2em solid #f42b41;\n  border-right: 0.2em solid #f42b41;\n  box-sizing: border-box;\n  position: absolute;\n  top: 7em;\n  width: 100%;\n  height: 100%;\n  z-index: 0;\n}\n.stage-background {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 0;\n  overflow: hidden;\n}\n.stage-background img {\n  width: 100%;\n  height: 100%;\n}\n.stage {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  margin: 0 auto;\n}\n.stage .project-tooltip {\n  position: absolute;\n  background-color: rgba(40, 27, 10, 0.6);\n  box-shadow: 0px 0px 1px 0px rgba(40, 27, 10, 0.6);\n  color: #F4E6E1;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: .8em;\n  letter-spacing: .05em;\n}\n.stage .project-tooltip .project-tooltip-subtitle {\n  font-family: \"Open Sans\", sans-serif;\n  font-style: italic;\n  font-weight: 100;\n}\n.stage .project-tooltip .project-tooltip-date {\n  font-size: .8em;\n  font-weight: 100;\n  padding: .5em 0 .05em 0;\n}\n.stage .project-tooltip .project-tooltip-date > span {\n  border-top: #C3B9B5 1px solid;\n  border-bottom: #C3B9B5 1px solid;\n}\n.stage .project-tooltip > div {\n  padding: .4em .5em .6em 1em;\n}\n.stage .project-tooltip > div p {\n  padding: .05em 0;\n}\n.stage-nav-arrow {\n  display: block;\n  position: fixed;\n  right: 2%;\n  bottom: 7%;\n  height: 12%;\n  width: 20px;\n}\n.stage-nav-arrow img {\n  height: 100%;\n  margin: auto;\n}\n.cursor {\n  position: absolute;\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: cover;\n  background-clip: content-box;\n  color: transparent;\n  text-indent: -10000px;\n  border: .2em solid transparent;\n}\n.project-container {\n  position: absolute;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.carte_de_visite {\n  width: 500px;\n}\n.close_carte_de_visite {\n  color: #F7AFB6;\n  font-family: \"prumo-display-extralight\";\n  font-weight: 100;\n  position: relative;\n  top: -113px;\n  right: 108px;\n  font-size: 10em;\n  line-height: 0.5em;\n  text-decoration: none;\n}\n.project-white-overlay {\n  position: fixed;\n  top: 0;\n  right: 3px;\n  bottom: 3px;\n  left: 3px;\n  background-color: rgba(255, 255, 255, 0.5);\n}\n.project-viewer {\n  position: relative;\n  width: 90%;\n  height: 80%;\n  overflow: hidden;\n  margin-bottom: 7%;\n}\n.project-slide-show {\n  position: absolute;\n  height: 101%;\n  width: 100%;\n  overflow: hidden;\n  background-color: #EFE7E8;\n}\n.project-slide-show .image-navigation {\n  position: absolute;\n  bottom: 3%;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  width: 66%;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  margin-left: 4%;\n}\n.project-slide-show .image-navigation a {\n  text-decoration: none;\n}\n.project-slide-show .image-navigation .image-navigation-dot {\n  border-radius: 50%;\n  border: 1px solid #F7AFB6;\n  width: 4px;\n  height: 4px;\n  margin: 4px;\n  padding: 2px;\n  background-clip: content-box;\n}\n.project-slide-show .image-navigation .image-navigation-dot.image-navigation-dot-selected {\n  background-color: #f42b41;\n}\n.project-slide-show .project-image {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n}\n.project-description {\n  position: absolute;\n  top: 120px;\n  right: 5%;\n  width: 180px;\n}\n.project-description .project-description-title {\n  text-transform: uppercase;\n  font-size: 1em;\n  margin: 0 0 0.1em 0;\n  letter-spacing: 0.5px;\n}\n.project-description .project-description-subtitle {\n  font-style: italic;\n  margin: 0 0 0.7em 0;\n  font-size: 0.8em;\n}\n.project-description .project-description-title,\n.project-description .project-description-subtitle {\n  font-family: \"prumo-display-extralight\", serif;\n  font-weight: 100;\n}\n.project-description .project-description-date {\n  border-top: #F7AFB6 1px solid;\n  border-bottom: #F7AFB6 1px solid;\n  line-height: 1.5em;\n  font-size: 0.7em;\n}\n.project-description .project-description-text {\n  font-family: \"Open Sans\", sans-serif;\n  line-height: 1.5em;\n  font-size: 0.7em;\n}\n.project-description .project-description-text p {\n  margin: 1em 0;\n}\n.project-description hr {\n  width: 47px;\n  display: block;\n  height: 1px;\n  border: 0;\n  border-top: 1px solid #F7AFB6;\n  margin: 1em 0;\n  padding: 0;\n}\n.project-navigation {\n  position: absolute;\n  width: 24%;\n  bottom: 2%;\n  right: 0.7%;\n  text-align: center;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n              -ms-grid-row-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.project-navigation .project-navigation-donut {\n  width: 30px;\n  height: 30px;\n  margin: 0 3%;\n}\n.project-navigation .project-navigation-arrow img {\n  width: 23%;\n}\n.project-close {\n  color: #F7AFB6;\n  font-family: \"prumo-display-extralight\";\n  font-weight: 100;\n  position: absolute;\n  top: 0;\n  right: 0;\n  font-size: 10em;\n  line-height: 0.5em;\n  text-decoration: none;\n}\n.stage-footer {\n  position: absolute;\n  bottom: 1%;\n  right: 1%;\n  color: #655C58;\n  font-family: \"Open Sans\", sans-serif;\n  text-transform: uppercase;\n  letter-spacing: 0.04em;\n}\n.stage-footer a {\n  text-decoration: none;\n  font-size: 6px;\n}\n.opacity-project-enter {\n  opacity: 0.01;\n}\n.opacity-project-enter.opacity-project-enter-active {\n  opacity: 1;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.opacity-project-leave {\n  opacity: 1;\n}\n.opacity-project-leave.opacity-project-leave-active {\n  opacity: 0.01;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.opacity-enter {\n  opacity: 0.01;\n}\n.opacity-enter.opacity-enter-active {\n  opacity: 1;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.opacity-leave {\n  opacity: 1;\n}\n.opacity-leave.opacity-leave-active {\n  opacity: 0.01;\n  -webkit-transition: opacity 400ms ease-out;\n  transition: opacity 400ms ease-out;\n}\n.unroll-enter {\n  max-height: 0;\n  overflow: hidden;\n}\n.unroll-enter.unroll-enter-active {\n  max-height: 70px;\n  -webkit-transition: max-height 400ms ease-out;\n  transition: max-height 400ms ease-out;\n  overflow: hidden;\n}\n.unroll-leave {\n  max-height: 70px;\n  overflow: hidden;\n}\n.unroll-leave.unroll-leave-active {\n  max-height: 0;\n  -webkit-transition: max-height 400ms ease-out;\n  transition: max-height 400ms ease-out;\n  overflow: hidden;\n}\n.translate-enter {\n  -webkit-transform: translate3d(0, 120%, 0);\n          transform: translate3d(0, 120%, 0);\n}\n.translate-enter.translate-enter-active {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n  -webkit-transition: opacity 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n}\n.translate-leave {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n.translate-leave.translate-leave-active {\n  -webkit-transform: translate3d(0, -120%, 0);\n          transform: translate3d(0, -120%, 0);\n  -webkit-transition: opacity 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out !important;\n  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out, -webkit-transform 700ms ease-in-out !important;\n}\n", ""]);
 
 	// exports
 
@@ -30315,7 +30307,7 @@
 	    title: "Clichés",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2012",
-	    text: "\n        <p>Les idéaux esthétiques de</br> l’amour passionnel prennent</br> la forme de compositions florales.</p>\n        <p>Le cliché du bouquet de fleurs</br> se délite peu à peu, il s’épanouit</br> puis se répand comme un nuage</br> de fumée.</p>\n      "
+	    text: "\n        <p>Les idéaux esthétiques de<br/> l’amour passionnel prennent<br/> la forme de compositions florales.</p>\n        <p>Le cliché du bouquet de fleurs<br/> se délite peu à peu, il s’épanouit<br/> puis se répand comme un nuage<br/> de fumée.</p>\n      "
 	  }, {
 	    projectId: "premiere-cigarette",
 	    cursor: { x: 50, y: 43, cursor: "18" },
@@ -30323,7 +30315,7 @@
 	    title: "Première Cigarette",
 	    subtitle: "Collection Automne-Hiver",
 	    date: "04 • 2012",
-	    text: "\n        <p>Cette collection est à l’image</br> d’une candeur adolescente,</br> prête à être consumée.</p>\n        <p>C’est un temps suspendu</br> entre le corps et la cigarette,</br> un mélange subtil entre le dedans</br> et le dehors: l’enveloppe blanche</br> de l’objet interdit et les teintes brunes du tabac.</p>\n      "
+	    text: "\n        <p>Cette collection est à l’image<br/> d’une candeur adolescente,<br/> prête à être consumée.</p>\n        <p>C’est un temps suspendu<br/> entre le corps et la cigarette,<br/> un mélange subtil entre le dedans<br/> et le dehors: l’enveloppe blanche<br/> de l’objet interdit et les teintes brunes du tabac.</p>\n      "
 	  }, {
 	    projectId: "hiver-nacre",
 	    cursor: { x: 46, y: 57, cursor: "06" },
@@ -30331,7 +30323,7 @@
 	    title: "Hiver Nacré",
 	    subtitle: "Collection Automne-Hiver",
 	    date: "02 • 2013",
-	    text: "\n        <p>Le charme de l’enfance est</br> évoqué dans une combinaison espiègle de nuances chaudes</br> et froides.</br></br> Une palette délicate aux teintes pastel, semées de touches vives, donne à l’hiver la gaieté des jours</br> de vacances.</p>\n      "
+	    text: "\n        <p>Le charme de l’enfance est<br/> évoqué dans une combinaison espiègle de nuances chaudes<br/> et froides.<br/><br/> Une palette délicate aux teintes pastel, semées de touches vives, donne à l’hiver la gaieté des jours<br/> de vacances.</p>\n      "
 	  }, {
 	    projectId: "cendrier",
 	    cursor: { x: 56, y: 83, cursor: "13" },
@@ -30339,7 +30331,7 @@
 	    title: "Cendrier",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2012",
-	    text: "\n        <p>La cigarette comme la passion amoureuse caresse l’éphémère</br> par sa consumation rapide.</p>\n        <p>Une nature morte métallique</br> serait à l’image d’un mégot écrasé.</p>\n        <p>La matière, devient un objet usé</br> et calciné : elle est le résultat</br> de l’épuisement dans la tension</br> qui s’opère entre deux corps.</p>\n      "
+	    text: "\n        <p>La cigarette comme la passion amoureuse caresse l’éphémère<br/> par sa consumation rapide.</p>\n        <p>Une nature morte métallique<br/> serait à l’image d’un mégot écrasé.</p>\n        <p>La matière, devient un objet usé<br/> et calciné : elle est le résultat<br/> de l’épuisement dans la tension<br/> qui s’opère entre deux corps.</p>\n      "
 	  }, {
 	    projectId: "particules",
 	    cursor: { x: 32, y: 6, cursor: "12" },
@@ -30370,7 +30362,7 @@
 	    title: "Apellis",
 	    subtitle: "Défi Innover Ensemble",
 	    date: "07 • 2014",
-	    text: "\n        <p>La minaudière Aglaé est issue</br> d’une volonté de magnifier</br> les savoir-faire autour du cuir.</p>\n        <p>L’imbrication de lanières de cuir, posées sur la tranche, a généré</br> un matériau à la fois rigide</br> et flexible. Il est apparu comme</br> un élément structurel et décoratif, porteur d’une gamme d’objets raffinés : la ligne de maroquinerie Apellis.</p>\n      ",
+	    text: "\n        <p>La minaudière Aglaé est issue<br/> d’une volonté de magnifier<br/> les savoir-faire autour du cuir.</p>\n        <p>L’imbrication de lanières de cuir, posées sur la tranche, a généré<br/> un matériau à la fois rigide<br/> et flexible. Il est apparu comme<br/> un élément structurel et décoratif, porteur d’une gamme d’objets raffinés : la ligne de maroquinerie Apellis.</p>\n      ",
 	    subtext: "\n        <p>2e prix du Défi Innover Ensemble, Quatrième édition.</p>\n      "
 	  }, {
 	    projectId: "livretapellis",
@@ -30379,7 +30371,7 @@
 	    title: "Livret",
 	    subtitle: "Défi Innover Ensemble",
 	    date: "07 • 2014",
-	    text: "\n        <p>Livret de présentation du projet Apellis pour la quatrième édition</br> du Défi Innover Ensemble.</p>\n      "
+	    text: "\n        <p>Livret de présentation du projet Apellis pour la quatrième édition<br/> du Défi Innover Ensemble.</p>\n      "
 	  }]
 	};
 
@@ -30401,8 +30393,8 @@
 	    title: "Convenances",
 	    subtitle: "Linge de table",
 	    date: "02 • 2014",
-	    text: "\n        <p>Ce linge de table s’inspire</br> du savoir-vivre à la française,</br> il invite à revivre l’élégance</br> d’un moment XVIIIe siècle.</p>\n        <p>Des feuillages luxuriants</br> s’articulent autour de person-</br>nages issus de céramiques</br> et de tapisseries présentes</br> au Musée du Louvre.</p>\n      ",
-	    subtext: "\n        <p>Diponible à la boutique</br> du <a href=\"http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html\">Musée du Louvre.</a></p>"
+	    text: "\n        <p>Ce linge de table s’inspire<br/> du savoir-vivre à la française,<br/> il invite à revivre l’élégance<br/> d’un moment XVIIIe siècle.</p>\n        <p>Des feuillages luxuriants<br/> s’articulent autour de person-<br/>nages issus de céramiques<br/> et de tapisseries présentes<br/> au Musée du Louvre.</p>\n      ",
+	    subtext: "\n        <p>Diponible à la boutique<br/> du <a href=\"http://www.boutiquesdemusees.fr/fr/boutiques/musee-du-louvre/sets-de-table-convenances/7429.html\">Musée du Louvre.</a></p>"
 	  }, {
 	    projectId: "livret",
 	    cursor: { x: 80, y: 65, cursor: "15" },
@@ -30410,7 +30402,7 @@
 	    title: "Convenances",
 	    subtitle: "Livret",
 	    date: "02 • 2014",
-	    text: "\n        <p>Livret de présentation du projet <i>Convenances</i> pour la Réunion</br> des Musées Nationaux.</p>\n      "
+	    text: "\n        <p>Livret de présentation du projet <i>Convenances</i> pour la Réunion<br/> des Musées Nationaux.</p>\n      "
 	  }]
 	};
 
@@ -30433,15 +30425,15 @@
 	    title: "Étoffes",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2013",
-	    text: "\n        <p>Chrysalide serait une figure</br> de La Métamorphose de Kafka,</br> elle révèlerait une vérité</br> jusqu’alors méconnue.</p>\n        <p>Les masques peinent à tomber</br> et la figure de l’insecte, surgis-</br>sant de la chair, est aussitôt</br> fardée. Nue, la peau se gonfle</br> et s’étire en résistance à sa</br> propre mutation.</p>\n      "
+	    text: "\n        <p>Chrysalide serait une figure<br/> de La Métamorphose de Kafka,<br/> elle révèlerait une vérité<br/> jusqu’alors méconnue.</p>\n        <p>Les masques peinent à tomber<br/> et la figure de l’insecte, surgis-<br/>sant de la chair, est aussitôt<br/> fardée. Nue, la peau se gonfle<br/> et s’étire en résistance à sa<br/> propre mutation.</p>\n      "
 	  }, {
 	    projectId: "couleursetmatieres",
 	    cursor: { x: 75, y: 50, cursor: "11" },
 	    images: [{ src: "projet2/01.jpg", alt: "" }, { src: "projet2/02.jpg", alt: "" }],
-	    title: "Couleurs</br> & Matières",
+	    title: "Couleurs<br/> & Matières",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2013",
-	    text: "\n        <p>Des ailes d’insectes figées</br> dans des cristaux de roche,</br> aux prémices de Chrysalide.</p>\n      "
+	    text: "\n        <p>Des ailes d’insectes figées<br/> dans des cristaux de roche,<br/> aux prémices de Chrysalide.</p>\n      "
 	  }, {
 	    projectId: "carnet",
 	    cursor: { x: 42, y: 36, cursor: "19" },
@@ -30449,7 +30441,7 @@
 	    title: "Carnet de recherches",
 	    subtitle: "Collection Printemps-Été",
 	    date: "06 • 2013",
-	    text: "\n        <p>Recherches graphiques</br> préliminaires à la collection</br> de textiles Chrysalide.</p>\n      "
+	    text: "\n        <p>Recherches graphiques<br/> préliminaires à la collection<br/> de textiles Chrysalide.</p>\n      "
 	  }]
 	};
 
