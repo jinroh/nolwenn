@@ -95,10 +95,17 @@ const StageViewer = React.createClass({
   },
 
   onImageLoaded() {
-    const { naturalWidth, naturalHeight } = this.image;
+    let width, height;
+    if (this.image) {
+      width = this.image.naturalWidth;
+      height = this.image.naturalHeight;
+    } else {
+      width = this.video.videoWidth;
+      height = this.video.videoHeight;
+    }
     this.setState({
       imgLoaded: true,
-      imgRatio: naturalWidth / naturalHeight,
+      imgRatio: width / height,
     });
   },
 
@@ -200,9 +207,13 @@ const StageViewer = React.createClass({
 
     const mainImageElement = stage.isVideo
       ? <video
-          src={`${stage.stageId}/video.mp4"`}
+          ref={(ref) => this.video = ref}
+          src={`${stage.stageId}/video.mp4`}
           className="stage-image"
-          style={stageImageStyle} />
+          style={stageImageStyle}
+          onLoadedData={this.onImageLoaded}
+          autoPlay={true}
+          loop={true} />
       : <img
           ref={(ref) => this.image = ref}
           alt={"Tableau " + stage.name}
