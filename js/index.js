@@ -42,9 +42,6 @@ const ProjectTooltip = React.createClass({
 });
 
 const SiteHeader = React.createClass({
-  shouldComponentUpdate() {
-    return false;
-  },
   render() {
     const { stageId } = this.props;
     return (

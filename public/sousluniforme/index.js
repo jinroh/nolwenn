@@ -3,6 +3,6 @@ module.exports = {
   name: "sousluniforme",
   backgroundColor: "#8A6E6B",
   headerColor: "#B49A91",
+  isVideo: true,
   projects: [],
-  isVideo: true
 };
