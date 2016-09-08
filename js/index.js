@@ -66,7 +66,7 @@ const StageFooter = React.createClass({
   render() {
     return (
       <footer className="stage-footer">
-        <a href="/">Photographies Inès Leroy-Galan</a>
+        <a href="http://inesleroygalan.com" target="_blank">Photographies Inès Leroy-Galan</a>
       </footer>
     );
   }
@@ -79,6 +79,7 @@ const StageViewer = React.createClass({
       imgRatio: 0,
       projectTooltip: null,
       height: window.innerHeight,
+      minHeight: 700px;
     };
   },
 
