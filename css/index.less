@@ -21,6 +21,12 @@ tr, tt, u, ul, var, video {
   font-stretch: normal;
 }
 
+@font-face {
+  font-family: "prumo-display_extrabold_italic";
+  src: url(fonts/prumo-display_extrabold_italic.otf);
+  font-stretch: normal;
+}
+
 
 
 body {
@@ -102,11 +108,11 @@ main {
   border-bottom: .2em solid rgb(244, 43, 65);
 
   h1 {
-    font-family: "prumo-display-extralight", serif;
+    font-family: "prumo-display_extrabold_italic", serif;
     font-size: 2.4vh;
     color: inherit;
     text-transform: uppercase;
-    letter-spacing: .4em;
+    letter-spacing: .35em;
     // padding-bottom: 4px;
     padding: 1em 1em 0.15em  1em;
   }
@@ -526,6 +532,11 @@ main {
     font-size: 1.25em;
 }
   }
+
+  .stage-footer {
+  position: fixed;
+  bottom: 12px;
+  }
     }
 
  @media screen and (max-width: 640px)
@@ -546,4 +557,15 @@ main {
     font-size: 1.25em;
 }
   }
-    }   
+    } 
+@media handheld
+
+{
+  .project-viewer {
+
+  width: 100vw;
+  height: 100vh;
+}
+
+
+}

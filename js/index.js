@@ -50,7 +50,7 @@ const SiteHeader = React.createClass({
     const { stageId } = this.props;
     return (
       <header className="site-header">
-        <h1>Nolwenn  Le Scao</h1>
+        <h1>Nolwenn Le Scao</h1>
         <p>
           <a href="/pdf/NolwennLeScao_CV.pdf" target="_blank">Parcours</a> |           <Link to={`/${stageId}/contact`}>Contact</Link>
         </p>
@@ -66,7 +66,7 @@ const StageFooter = React.createClass({
   render() {
     return (
       <footer className="stage-footer">
-        <a href="http://inesleroygalan.com" target="_blank">Photographies Inès Leroy-Galan</a>
+        <a href="http://inesleroygalan.com" target="_blank">Photographie Inès Leroy-Galan</a>
       </footer>
     );
   }
@@ -79,7 +79,6 @@ const StageViewer = React.createClass({
       imgRatio: 0,
       projectTooltip: null,
       height: window.innerHeight,
-      minHeight: 700px;
     };
   },
 
